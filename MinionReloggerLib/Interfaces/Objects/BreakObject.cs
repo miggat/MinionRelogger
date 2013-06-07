@@ -23,7 +23,6 @@ using System.Linq;
 using MinionReloggerLib.Configuration;
 using MinionReloggerLib.Enums;
 using MinionReloggerLib.Helpers.Language;
-using MinionReloggerLib.Interfaces.RelogWorkers;
 using MinionReloggerLib.Logging;
 using ProtoBuf;
 
@@ -85,25 +84,6 @@ namespace MinionReloggerLib.Interfaces.Objects
 
         public IObject DoWork()
         {
-            if (IsReady())
-            {
-                Account wanted = Config.Singleton.AccountSettings.FirstOrDefault(a => a.LoginName == LoginName);
-                if (wanted != null)
-                {
-                    new KillWorker().DoWork(wanted);
-                }
-            }
-            else if (Check())
-            {
-                Account wanted = Config.Singleton.AccountSettings.FirstOrDefault(a => a.LoginName == LoginName);
-                if (wanted != null)
-                {
-                    if (new KillWorker().DoWork(wanted).PostWork(wanted))
-                    {
-                        Update();
-                    }
-                }
-            }
             return this;
         }
 
@@ -133,7 +113,8 @@ namespace MinionReloggerLib.Interfaces.Objects
                                          LanguageManager.Singleton.GetTranslation(ETranslations.BreakObjectExpired),
                                          wanted.LoginName);
             }
-            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.BreakObjectNew),
+            Logger.LoggingObject.Log(ELogType.Info,
+                                     LanguageManager.Singleton.GetTranslation(ETranslations.BreakObjectNew),
                                      TimeActualStartBreak,
                                      TimeActualStopBreak);
         }

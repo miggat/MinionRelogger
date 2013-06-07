@@ -43,10 +43,13 @@ namespace MinionReloggerLib.Helpers.Encryption
             }
             catch (CryptographicException ex)
             {
-                Logger.LoggingObject.Log(ELogType.Critical, LanguageManager.Singleton.GetTranslation(ETranslations.DataProtectorErrorOccured));
+                Logger.LoggingObject.Log(ELogType.Critical,
+                                         LanguageManager.Singleton.GetTranslation(
+                                             ETranslations.DataProtectorErrorOccured));
                 Logger.LoggingObject.Log(ELogType.Critical, ex.Message);
                 Logger.LoggingObject.Log(ELogType.Critical,
-                                         LanguageManager.Singleton.GetTranslation(ETranslations.DataProtectorDeletedSaveFile));
+                                         LanguageManager.Singleton.GetTranslation(
+                                             ETranslations.DataProtectorDeletedSaveFile));
                 try
                 {
                     File.Delete("Launcher.bin");
@@ -74,10 +77,13 @@ namespace MinionReloggerLib.Helpers.Encryption
             }
             catch (CryptographicException ex)
             {
-                Logger.LoggingObject.Log(ELogType.Critical, LanguageManager.Singleton.GetTranslation(ETranslations.DataProtectorErrorOccured));
+                Logger.LoggingObject.Log(ELogType.Critical,
+                                         LanguageManager.Singleton.GetTranslation(
+                                             ETranslations.DataProtectorErrorOccured));
                 Logger.LoggingObject.Log(ELogType.Critical, ex.Message);
                 Logger.LoggingObject.Log(ELogType.Critical,
-                                         LanguageManager.Singleton.GetTranslation(ETranslations.DataProtectorDeletedSaveFile));
+                                         LanguageManager.Singleton.GetTranslation(
+                                             ETranslations.DataProtectorDeletedSaveFile));
                 try
                 {
                     File.Delete("" +

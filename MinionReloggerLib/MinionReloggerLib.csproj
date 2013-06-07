@@ -69,12 +69,14 @@
   <ItemGroup>
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Configuration\Settings\GeneralSettings.cs" />
+    <Compile Include="Core\ComponentManager.cs" />
     <Compile Include="CustomEventArgs\ReloggerEventArgs.cs" />
+    <Compile Include="Enums\EComponentResult.cs" />
     <Compile Include="Enums\ELanguages.cs" />
     <Compile Include="Enums\ELogType.cs" />
     <Compile Include="CustomEventArgs\LogEventArgs.cs" />
     <Compile Include="Enums\ERelogEventType.cs" />
-    <Compile Include="Enums\ETranslation.cs" />
+    <Compile Include="Enums\ETranslations.cs" />
     <Compile Include="Helpers\Encryption\DataProtector.cs" />
     <Compile Include="Helpers\Input\InputBox.cs" />
     <Compile Include="Helpers\Language\LanguageManager.cs" />

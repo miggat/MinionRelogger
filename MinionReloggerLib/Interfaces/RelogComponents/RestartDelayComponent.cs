@@ -18,58 +18,50 @@
 *                                                                            *
 ******************************************************************************/
 
+using System;
+using MinionReloggerLib.Configuration;
 using MinionReloggerLib.Enums;
 using MinionReloggerLib.Interfaces.Objects;
 
 namespace MinionReloggerLib.Interfaces.RelogComponents
 {
-    public class BreakComponent : IRelogComponent
+    public class RestartDelayComponent : IRelogComponent
     {
         private bool _isEnabled;
 
         public bool Check(Account account)
         {
-            return account.BreakObject.Check();
+            return account.ShouldBeRunning && !account.Running;
         }
 
         public IRelogComponent DoWork(Account account, ref EComponentResult result)
         {
             if (Check(account))
             {
-                //Account wanted = Config.Singleton.AccountSettings.FirstOrDefault(a => a.LoginName == LoginName);
-                //if (wanted != null)
-                //{
-                //    new KillWorker().DoWork(wanted);
-                //}
-                result = EComponentResult.Kill;
-            }
-            else if (IsReady(account))
-            {
-                //Account wanted = Config.Singleton.AccountSettings.FirstOrDefault(a => a.LoginName == LoginName);
-                //if (wanted != null)
-                //{
-                //    if (new KillWorker().DoWork(wanted).PostWork(wanted))
-                //    {
-                //        Update(account);
-                //    }
-                //}
-                result = EComponentResult.Kill;
+                result = EComponentResult.Start;
+                if (IsReady(account))
+                {
+                    result = EComponentResult.Halt;
+                }
             }
             else
             {
-                result = EComponentResult.Continue;
+                result = EComponentResult.Ignore;
             }
             return this;
         }
 
         public bool IsReady(Account account)
         {
-            return account.BreakObject.IsReady();
+            return (DateTime.Now - account.LastCrash).TotalSeconds >= Config.Singleton.GeneralSettings.RestartDelay &&
+                   (DateTime.Now - account.LastStop).TotalSeconds >= Config.Singleton.GeneralSettings.RestartDelay &&
+                   (DateTime.Now - account.LastStart).TotalSeconds >=
+                   Config.Singleton.GeneralSettings.RestartDelay;
         }
 
         public void Update(Account account)
         {
-            account.BreakObject.Update();
+           
         }
 
         public bool PostWork(Account account)
@@ -94,7 +86,7 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public string GetName()
         {
-            return "BreakComponent";
+            return "RestartDelayComponent";
         }
 
         public void OnEnable()

@@ -36,7 +36,6 @@ namespace MinionReloggerLib.Helpers.Language
             _languages = new Dictionary<ELanguages, Language>
                 {
                     {ELanguages.English, new English()},
-
                 };
             _currentLanguage = ELanguages.Default;
         }

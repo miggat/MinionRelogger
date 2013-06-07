@@ -69,50 +69,66 @@ namespace MinionReloggerLib.Configuration.Settings
 
         public void SetGW2Path(string newPath)
         {
-            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsGW2PathChanged), newPath);
+            Logger.LoggingObject.Log(ELogType.Info,
+                                     LanguageManager.Singleton.GetTranslation(
+                                         ETranslations.GeneralSettingsGW2PathChanged), newPath);
             GW2Path = newPath;
         }
 
         public void SetPollingDelay(int newDelay)
         {
-            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsPollingDelayChanged), newDelay);
+            Logger.LoggingObject.Log(ELogType.Info,
+                                     LanguageManager.Singleton.GetTranslation(
+                                         ETranslations.GeneralSettingsPollingDelayChanged), newDelay);
             PollingDelay = newDelay;
         }
 
         public void SetLaunchDelay(int newDelay)
         {
-            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsLaunchDelayChanged), newDelay);
+            Logger.LoggingObject.Log(ELogType.Info,
+                                     LanguageManager.Singleton.GetTranslation(
+                                         ETranslations.GeneralSettingsLaunchDelayChanged), newDelay);
             LaunchDelay = newDelay;
         }
 
         public void SetRestartDelay(int newDelay)
         {
-            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsRestartDelayChanged), newDelay);
+            Logger.LoggingObject.Log(ELogType.Info,
+                                     LanguageManager.Singleton.GetTranslation(
+                                         ETranslations.GeneralSettingsRestartDelayChanged), newDelay);
             RestartDelay = newDelay;
         }
 
         public void SetStyleSetting(int newStyle)
         {
             StyleSetting = newStyle;
-            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsColorChanged), ((MetroColorStyle)newStyle).ToString());
+            Logger.LoggingObject.Log(ELogType.Info,
+                                     LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsColorChanged),
+                                     ((MetroColorStyle) newStyle).ToString());
         }
 
         public void SetThemeSetting(int newTheme)
         {
             ThemeSetting = newTheme;
-            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsThemeChanged), ((MetroThemeStyle)newTheme).ToString());
+            Logger.LoggingObject.Log(ELogType.Info,
+                                     LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsThemeChanged),
+                                     ((MetroThemeStyle) newTheme).ToString());
         }
 
         public void SetMinimizeWindows(bool newMinimize)
         {
             MinimizeWindows = newMinimize;
-            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsMinimizeWindowsChanged), newMinimize);
+            Logger.LoggingObject.Log(ELogType.Info,
+                                     LanguageManager.Singleton.GetTranslation(
+                                         ETranslations.GeneralSettingsMinimizeWindowsChanged), newMinimize);
         }
 
         public void AddIP(IPAddress newAddress)
         {
             AllowedIPAddresses.Add(newAddress);
-            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsAddedIP), newAddress.ToString());
+            Logger.LoggingObject.Log(ELogType.Info,
+                                     LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsAddedIP),
+                                     newAddress.ToString());
         }
 
         public void DeleteIP(IPAddress toDeleteAddress)
@@ -121,14 +137,17 @@ namespace MinionReloggerLib.Configuration.Settings
             if (wanted == null)
                 return;
             AllowedIPAddresses.Remove(wanted);
-            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsDeletedIP),
+            Logger.LoggingObject.Log(ELogType.Info,
+                                     LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsDeletedIP),
                                      toDeleteAddress.ToString());
         }
 
         public void SetCheckForIP(bool newValue)
         {
             CheckForIP = newValue;
-            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsCheckForIPChanged), newValue);
+            Logger.LoggingObject.Log(ELogType.Info,
+                                     LanguageManager.Singleton.GetTranslation(
+                                         ETranslations.GeneralSettingsCheckForIPChanged), newValue);
         }
     }
 }

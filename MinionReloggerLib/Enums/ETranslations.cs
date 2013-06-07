@@ -26,6 +26,11 @@ namespace MinionReloggerLib.Enums
         BreakObjectExpired,
         BreakObjectNew,
 
+        // class: ComponentManager
+        ComponentManagerAddedComponent,
+        ComponentManagerEnableComponent,
+        ComponentManagerDisableComponent,
+
         // class: Config
         ConfigNewAccount,
 

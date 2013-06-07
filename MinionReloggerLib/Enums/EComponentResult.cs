@@ -20,9 +20,11 @@
 
 namespace MinionReloggerLib.Enums
 {
-    public enum ELanguages
+    public enum EComponentResult
     {
-        Default,
-        English = Default,
+        Continue,
+        ContinueForced,
+        Kill,
+        KilForced,
     }
 }

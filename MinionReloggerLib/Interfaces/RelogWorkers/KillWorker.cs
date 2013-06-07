@@ -62,7 +62,9 @@ namespace MinionReloggerLib.Interfaces.RelogWorkers
 
         public void Update(Account account)
         {
-            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.KillWorkerStoppingProcess), account.PID);
+            Logger.LoggingObject.Log(ELogType.Info,
+                                     LanguageManager.Singleton.GetTranslation(ETranslations.KillWorkerStoppingProcess),
+                                     account.PID);
             account.SetLastStopTime(DateTime.Now);
         }
 

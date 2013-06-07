@@ -66,7 +66,8 @@ namespace MinionReloggerLib.Configuration
 
         public void AddAccount(Account account)
         {
-            Logger.LoggingObject.Log(ELogType.Debug, LanguageManager.Singleton.GetTranslation(ETranslations.ConfigNewAccount));
+            Logger.LoggingObject.Log(ELogType.Debug,
+                                     LanguageManager.Singleton.GetTranslation(ETranslations.ConfigNewAccount));
             account.SetIndex(AccountSettings.Count);
             AccountSettings.Add(account);
         }

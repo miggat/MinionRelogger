@@ -109,7 +109,8 @@ namespace MinionReloggerLib.Helpers.Input
             textBox.Text = value;
 
             buttonOk.Text = LanguageManager.Singleton.GetTranslation(ETranslations.InputBoxOk);
-            buttonCancel.Text = LanguageManager.Singleton.GetTranslation(ETranslations.InputBoxCancel); ;
+            buttonCancel.Text = LanguageManager.Singleton.GetTranslation(ETranslations.InputBoxCancel);
+            ;
         }
 
         private static Form CreateControls(out Label label, out TextBox textBox, out Button buttonOk,
