@@ -56,6 +56,11 @@ namespace MinionReloggerLib.Threads.Implementation
             return _instanceThread;
         }
 
+        public string GetName()
+        {
+            return "InstanceThread";
+        }
+
         public bool IsRunning()
         {
             return _instanceThread.IsAlive && _isRunning;

@@ -25,6 +25,7 @@ namespace MinionReloggerLib.Threads
     internal interface IRelogThread
     {
         Thread GetThread();
+        string GetName();
         bool IsRunning();
         void Delay(int delay);
         void Stop();

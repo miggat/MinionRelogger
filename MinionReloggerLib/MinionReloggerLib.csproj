@@ -70,6 +70,7 @@
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Configuration\Settings\GeneralSettings.cs" />
     <Compile Include="Core\ComponentManager.cs" />
+    <Compile Include="Core\ThreadManager.cs" />
     <Compile Include="CustomEventArgs\ReloggerEventArgs.cs" />
     <Compile Include="Enums\EComponentResult.cs" />
     <Compile Include="Enums\ELanguages.cs" />

@@ -61,6 +61,11 @@ namespace MinionReloggerLib.Threads.Implementation
             return _gw2ManagerThread;
         }
 
+        public string GetName()
+        {
+            return "GW2ManagerThread";
+        }
+
         public bool IsRunning()
         {
             return _gw2ManagerThread.IsAlive && _isRunning;
