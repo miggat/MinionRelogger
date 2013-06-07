@@ -38,6 +38,8 @@ namespace MinionReloggerLib.Threads.Implementation
         private static readonly Dictionary<Process, WatchObject> FrozenGW2Windows =
             new Dictionary<Process, WatchObject>();
 
+        private static int _checkAll;
+
         private readonly Thread _gw2ManagerThread;
         private int _delay;
         private bool _isRunning;
@@ -124,27 +126,32 @@ namespace MinionReloggerLib.Threads.Implementation
                         firstOrDefault.Kill();
                 }
             }
-            Process[] gw2Processes = UpdateListWithRemainingGW2Processes();
-            foreach (Process gw2Process in gw2Processes)
+            if (_checkAll > 6 || Config.Singleton.GeneralSettings.PollingDelay >= 20000)
             {
-                UpdateProcessIdForMatchingScheduler(gw2Process);
-                if (!gw2Process.Responding)
+                Process[] gw2Processes = UpdateListWithRemainingGW2Processes();
+                foreach (Process gw2Process in gw2Processes)
                 {
-                    if (FrozenGW2Windows.All(p => p.Key.Id != gw2Process.Id))
+                    UpdateProcessIdForMatchingScheduler(gw2Process);
+                    if (!gw2Process.Responding)
                     {
-                        AddUnresponsiveProcessToTheList(gw2Process);
+                        if (FrozenGW2Windows.All(p => p.Key.Id != gw2Process.Id))
+                        {
+                            AddUnresponsiveProcessToTheList(gw2Process);
+                        }
+                        else
+                        {
+                            GetRidOfProcessesThatHaveBeenFrozenForLong(gw2Process);
+                        }
                     }
                     else
                     {
-                        GetRidOfProcessesThatHaveBeenFrozenForLong(gw2Process);
+                        RemoveRespondingWindowsFromTheList(gw2Process);
+                        MinimizeGW2Windows(gw2Process);
                     }
                 }
-                else
-                {
-                    RemoveRespondingWindowsFromTheList(gw2Process);
-                    MinimizeGW2Windows(gw2Process);
-                }
+                _checkAll = -1;
             }
+            _checkAll++;
             return true;
         }
 

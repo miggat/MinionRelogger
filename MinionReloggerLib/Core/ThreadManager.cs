@@ -34,16 +34,20 @@ namespace MinionReloggerLib.Core
         protected ThreadManager()
         {
             _threads = new List<IRelogThread> {new GW2ManagerThread(), new InstanceThread()};
-            foreach (IRelogThread thread in _threads)
-            {
-                EnableThread(thread.GetName());
-            }
         }
 
         public static ThreadManager Singleton
         {
             get { return _instance ?? (_instance = new ThreadManager()); }
             set { _instance = value; }
+        }
+
+        public void Initialize()
+        {
+            foreach (IRelogThread thread in _threads)
+            {
+                EnableThread(thread.GetName());
+            }
         }
 
         internal List<IRelogThread> GetThreads()
