@@ -79,7 +79,7 @@
     <Compile Include="Helpers\Input\InputBox.cs" />
     <Compile Include="Helpers\Language\LanguageManager.cs" />
     <Compile Include="Helpers\Language\Languages\English.cs" />
-    <Compile Include="Helpers\Language\Languages\Language.cs" />
+    <Compile Include="Helpers\Language\Language.cs" />
     <Compile Include="Helpers\MyIP\GetMyIP.cs" />
     <Compile Include="Helpers\MyIP\HTTPGet.cs" />
     <Compile Include="Imports\GW2MinionLauncher.cs" />

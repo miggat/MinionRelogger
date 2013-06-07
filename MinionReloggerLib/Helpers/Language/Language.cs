@@ -18,23 +18,27 @@
 *                                                                            *
 ******************************************************************************/
 
-using System;
+using System.Collections.Generic;
 using MinionReloggerLib.Enums;
 
-namespace MinionReloggerLib.CustomEventArgs
+namespace MinionReloggerLib.Helpers.Language
 {
-    public class LogEventArgs
+    public abstract class Language
     {
-        public readonly DateTime EventTime;
+        protected Dictionary<ETranslations, string> Translations;
 
-        public readonly string Message;
-        public readonly ELogType Type;
-
-        public LogEventArgs(ELogType type, string message)
+        public Language()
         {
-            EventTime = DateTime.Now;
-            Type = type;
-            Message = message;
+            Translations = new Dictionary<ETranslations, string>();
         }
+
+        public string GetTranslation(ETranslations key)
+        {
+            return Translations[key];
+        }
+
+        public abstract string GetLanguageDescription();
+
+        public abstract ELanguages GetLanguage();
     }
 }
