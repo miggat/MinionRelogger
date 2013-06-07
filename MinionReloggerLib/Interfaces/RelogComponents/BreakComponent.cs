@@ -31,7 +31,7 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public bool Check(Account account)
         {
-            return account.BreakObject.Check();
+            return account.BreakObject != null && account.BreakObject.Check();
         }
 
         public IRelogComponent DoWork(Account account, ref EComponentResult result)
@@ -66,7 +66,7 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public bool IsReady(Account account)
         {
-            return account.BreakObject.IsReady();
+            return account.BreakObject != null && account.BreakObject.IsReady();
         }
 
         public void Update(Account account)

@@ -25,6 +25,7 @@ using ProtoBuf;
 
 namespace MinionReloggerLib.Interfaces.Objects
 {
+    [ProtoContract]
     public class Account : IObject
     {
         [ProtoMember(1)] private string _loginName;
@@ -66,19 +67,18 @@ namespace MinionReloggerLib.Interfaces.Objects
             private set { _password = DataProtector.EncryptData(value); }
         }
 
-        internal bool Running
+        public bool Running
         {
             get
             {
                 try
                 {
-                    Process.GetProcessById((int) PID);
+                   return Process.GetProcessById((int) PID).Id != 0;
                 }
                 catch (ArgumentException)
                 {
                     return false;
                 }
-                return true;
             }
         }
 

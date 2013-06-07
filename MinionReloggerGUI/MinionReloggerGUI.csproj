@@ -4,16 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{01FF14C7-A5D9-404A-8AE1-FABD633A9B55}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{66F90291-83A5-471D-81D3-30D18F16C878}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MinionReloggerLib</RootNamespace>
-    <AssemblyName>MinionReloggerLib</AssemblyName>
+    <RootNamespace>MinionReloggerGUI</RootNamespace>
+    <AssemblyName>MinionReloggerGUI</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -49,8 +51,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MetroFramework, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="MetroFramework">
       <HintPath>..\packages\ModernUI.1.1.0.1\lib\net40\MetroFramework.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net">
@@ -58,63 +59,86 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\Config.cs" />
-    <Compile Include="Configuration\Settings\GeneralSettings.cs" />
-    <Compile Include="Core\ComponentManager.cs" />
-    <Compile Include="Core\ThreadManager.cs" />
-    <Compile Include="CustomEventArgs\ReloggerEventArgs.cs" />
-    <Compile Include="Enums\EComponentResult.cs" />
-    <Compile Include="Enums\ELanguages.cs" />
-    <Compile Include="Enums\ELogType.cs" />
-    <Compile Include="CustomEventArgs\LogEventArgs.cs" />
-    <Compile Include="Enums\ERelogEventType.cs" />
-    <Compile Include="Enums\ETranslations.cs" />
-    <Compile Include="Helpers\Encryption\DataProtector.cs" />
-    <Compile Include="Helpers\Input\InputBox.cs" />
-    <Compile Include="Helpers\Language\LanguageManager.cs" />
-    <Compile Include="Helpers\Language\Languages\English.cs" />
-    <Compile Include="Helpers\Language\Language.cs" />
-    <Compile Include="Helpers\MyIP\GetMyIP.cs" />
-    <Compile Include="Helpers\MyIP\HTTPGet.cs" />
-    <Compile Include="Imports\GW2MinionLauncher.cs" />
-    <Compile Include="Imports\Kernel32.cs" />
-    <Compile Include="Imports\User32.cs" />
-    <Compile Include="Interfaces\IRelogWorker.cs" />
-    <Compile Include="Interfaces\Objects\Account.cs" />
-    <Compile Include="Interfaces\Objects\WatchObject.cs" />
-    <Compile Include="Interfaces\RelogComponents\IPCheckComponent.cs" />
-    <Compile Include="Interfaces\RelogComponents\LaunchDelayComponent.cs" />
-    <Compile Include="Interfaces\RelogComponents\RestartDelayComponent.cs" />
-    <Compile Include="Interfaces\RelogComponents\ScheduleComponent.cs" />
-    <Compile Include="Interfaces\RelogWorkers\KillWorker.cs" />
-    <Compile Include="Interfaces\RelogWorkers\StartWorker.cs" />
-    <Compile Include="Logging\ClipboardHelper.cs" />
-    <Compile Include="Logging\Logger.cs" />
-    <Compile Include="Logging\STAHelper.cs" />
-    <Compile Include="Interfaces\RelogComponents\BreakComponent.cs" />
-    <Compile Include="Interfaces\IRelogComponent.cs" />
-    <Compile Include="Interfaces\Objects\BreakObject.cs" />
-    <Compile Include="Interfaces\IObject.cs" />
+    <Compile Include="CustomControls\LauncherCustomControl.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManageBreaks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManageBreaks.Designer.cs">
+      <DependentUpon>ManageBreaks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Threads\Implementation\GW2ManagerThread.cs" />
-    <Compile Include="Threads\Implementation\InstanceThread.cs" />
-    <Compile Include="Threads\IRelogThread.cs" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SchedulerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SchedulerForm.Designer.cs">
+      <DependentUpon>SchedulerForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="MainForm.en.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManageBreaks.resx">
+      <DependentUpon>ManageBreaks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SchedulerForm.resx">
+      <DependentUpon>SchedulerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\header %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\minion.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\minionbig.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MinionReloggerLib\MinionReloggerLib.csproj">
+      <Project>{01ff14c7-a5d9-404a-8ae1-fabd633a9b55}</Project>
+      <Name>MinionReloggerLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

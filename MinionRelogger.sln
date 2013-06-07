@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinionReloggerLib", "MinionReloggerLib\MinionReloggerLib.csproj", "{01FF14C7-A5D9-404A-8AE1-FABD633A9B55}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinionReloggerGUI", "MinionReloggerGUI\MinionReloggerGUI.csproj", "{66F90291-83A5-471D-81D3-30D18F16C878}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,17 @@ Global
 		{01FF14C7-A5D9-404A-8AE1-FABD633A9B55}.Release|Mixed Platforms.Build.0 = Release|x86
 		{01FF14C7-A5D9-404A-8AE1-FABD633A9B55}.Release|x86.ActiveCfg = Release|x86
 		{01FF14C7-A5D9-404A-8AE1-FABD633A9B55}.Release|x86.Build.0 = Release|x86
+		{66F90291-83A5-471D-81D3-30D18F16C878}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66F90291-83A5-471D-81D3-30D18F16C878}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66F90291-83A5-471D-81D3-30D18F16C878}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{66F90291-83A5-471D-81D3-30D18F16C878}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{66F90291-83A5-471D-81D3-30D18F16C878}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{66F90291-83A5-471D-81D3-30D18F16C878}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66F90291-83A5-471D-81D3-30D18F16C878}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66F90291-83A5-471D-81D3-30D18F16C878}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{66F90291-83A5-471D-81D3-30D18F16C878}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{66F90291-83A5-471D-81D3-30D18F16C878}.Release|x86.ActiveCfg = Release|x86
+		{66F90291-83A5-471D-81D3-30D18F16C878}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

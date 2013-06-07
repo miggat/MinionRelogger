@@ -35,7 +35,7 @@ namespace MinionReloggerLib.Interfaces.RelogWorkers
 
         public bool Check(Account account)
         {
-            return account.PID != uint.MaxValue;
+            return account.PID != uint.MaxValue && account.PID != 0;
         }
 
         public IRelogWorker DoWork(Account account)
