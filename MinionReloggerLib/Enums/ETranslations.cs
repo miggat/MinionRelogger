@@ -50,6 +50,10 @@ namespace MinionReloggerLib.Enums
         GeneralSettingsAddedIP,
         GeneralSettingsDeletedIP,
 
+        // class: GW2ManagerThread
+        GW2ManagerThreadStoppedResponding,
+        GW2ManagerThreadStartedRespondingAgain,
+
         // class: InputBox
         InputBoxOk,
         InputBoxCancel,

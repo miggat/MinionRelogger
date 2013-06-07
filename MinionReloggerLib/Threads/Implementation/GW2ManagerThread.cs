@@ -18,13 +18,26 @@
 *                                                                            *
 ******************************************************************************/
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using MinionReloggerLib.Configuration;
+using MinionReloggerLib.Enums;
+using MinionReloggerLib.Helpers.Language;
+using MinionReloggerLib.Imports;
+using MinionReloggerLib.Interfaces.Objects;
+using MinionReloggerLib.Logging;
 
 namespace MinionReloggerLib.Threads.Implementation
 {
     internal class GW2ManagerThread : IRelogThread
     {
+        private static readonly Dictionary<Process, WatchObject> FrozenGW2Windows =
+            new Dictionary<Process, WatchObject>();
+
         private readonly Thread _gw2ManagerThread;
         private int _delay;
         private bool _isRunning;
@@ -87,6 +100,140 @@ namespace MinionReloggerLib.Threads.Implementation
                     Thread.Sleep(Config.Singleton.GeneralSettings.PollingDelay);
                 }
                 Thread.Sleep(10000);
+            }
+        }
+
+        protected static bool EnumTheWindows(IntPtr hWnd, IntPtr lParam)
+        {
+            int size = User32.GetWindowTextLength(hWnd);
+            if (size++ > 0 && User32.IsWindowVisible(hWnd))
+            {
+                var sb = new StringBuilder(size);
+                User32.GetWindowText(hWnd, sb, size);
+                if (sb.ToString().ToLower() == "gw2.exe" ||
+                    sb.ToString().ToLower() == "guild wars 2 game client")
+                {
+                    Process firstOrDefault = Process.GetProcesses().FirstOrDefault(p => p.MainWindowHandle == hWnd);
+                    if (firstOrDefault != null)
+                        firstOrDefault.Kill();
+                }
+            }
+            Process[] gw2Processes = UpdateListWithRemainingGW2Processes();
+            foreach (Process gw2Process in gw2Processes)
+            {
+                UpdateProcessIdForMatchingScheduler(gw2Process);
+                if (!gw2Process.Responding)
+                {
+                    if (FrozenGW2Windows.All(p => p.Key.Id != gw2Process.Id))
+                    {
+                        AddUnresponsiveProcessToTheList(gw2Process);
+                    }
+                    else
+                    {
+                        GetRidOfProcessesThatHaveBeenFrozenForLong(gw2Process);
+                    }
+                }
+                else
+                {
+                    RemoveRespondingWindowsFromTheList(gw2Process);
+                    MinimizeGW2Windows(gw2Process);
+                }
+            }
+            return true;
+        }
+
+        private static Process[] UpdateListWithRemainingGW2Processes()
+        {
+            Process[] gw2Processes = Process.GetProcessesByName("GW2");
+            for (int i = 0; i < FrozenGW2Windows.Count; i++)
+            {
+                if (FrozenGW2Windows.ElementAt(i).Key.HasExited)
+                {
+                    FrozenGW2Windows.Remove(FrozenGW2Windows.ElementAt(i).Key);
+                    i--;
+                }
+            }
+            return gw2Processes;
+        }
+
+        private static void UpdateProcessIdForMatchingScheduler(Process gw2Process)
+        {
+            if (Config.Singleton.AccountSettings.All(a => a.PID != gw2Process.Id))
+            {
+                string name = GW2MinionLauncher.GetAccountName((uint) gw2Process.Id);
+                Account wanted =
+                    Config.Singleton.AccountSettings.FirstOrDefault(a => a.LoginName == name);
+                if (wanted != null)
+                {
+                    wanted.SetPID((uint) gw2Process.Id);
+                    wanted.SetShouldBeRunning(true);
+                }
+            }
+        }
+
+        private static void AddUnresponsiveProcessToTheList(Process gw2Process)
+        {
+            Account wanted =
+                Config.Singleton.AccountSettings.FirstOrDefault(a => a.PID == gw2Process.Id);
+            if (wanted != null)
+            {
+                FrozenGW2Windows.Add(gw2Process, new WatchObject(wanted, DateTime.Now, gw2Process));
+                Logger.LoggingObject.Log(ELogType.Critical,
+                                         LanguageManager.Singleton.GetTranslation(
+                                             ETranslations.GW2ManagerThreadStoppedResponding),
+                                         wanted.LoginName);
+            }
+            else
+            {
+                FrozenGW2Windows.Add(gw2Process, new WatchObject(new Account(), DateTime.Now, gw2Process));
+            }
+        }
+
+
+        private static void GetRidOfProcessesThatHaveBeenFrozenForLong(Process gw2Process)
+        {
+            KeyValuePair<Process, WatchObject> wanted =
+                FrozenGW2Windows.FirstOrDefault(p => p.Key.Id == gw2Process.Id);
+            if (wanted.Key != null && (DateTime.Now - wanted.Value.Time).TotalSeconds > 90)
+            {
+                if (wanted.Value.Account != null && wanted.Value.Check())
+                {
+                    wanted.Value.DoWork();
+                }
+            }
+        }
+
+        private static void RemoveRespondingWindowsFromTheList(Process gw2Process)
+        {
+            KeyValuePair<Process, WatchObject> wanted =
+                FrozenGW2Windows.FirstOrDefault(p => p.Key.Id == gw2Process.Id);
+            if (wanted.Key != null)
+            {
+                if (wanted.Value.Account != null)
+                    Logger.LoggingObject.Log(ELogType.Critical,
+                                             LanguageManager.Singleton.GetTranslation(
+                                                 ETranslations.GW2ManagerThreadStartedRespondingAgain),
+                                             wanted.Value.Account.LoginName);
+                FrozenGW2Windows.Remove(wanted.Key);
+            }
+        }
+
+        private static void MinimizeGW2Windows(Process gw2Process)
+        {
+            if (Config.Singleton.GeneralSettings.MinimizeWindows &&
+                Config.Singleton.AccountSettings.Any(a => a.PID == gw2Process.Id))
+            {
+                try
+                {
+                    IntPtr hwnd = Process.GetProcessById(gw2Process.Id).MainWindowHandle;
+                    if (!hwnd.Equals(IntPtr.Zero))
+                    {
+                        User32.ShowWindowAsync(hwnd, User32.SW_SHOWMINIMIZED);
+                    }
+                }
+                catch
+                {
+                }
             }
         }
     }

@@ -64,6 +64,12 @@ namespace MinionReloggerLib.Helpers.Language.Languages
             Translations.Add(ETranslations.GeneralSettingsDeletedIP,
                              "Deleted IP address {0} from the list of allowed addresses.");
 
+            // class: GW2ManagerThread
+            Translations.Add(ETranslations.GW2ManagerThreadStoppedResponding,
+                             "A GW 2 instance, running {0}, has stopped responding. Keeping an eye out.");
+            Translations.Add(ETranslations.GW2ManagerThreadStartedRespondingAgain,
+                             "The GW 2 instance, running {0}, has started responding again.");
+
             // class: InputBox
             Translations.Add(ETranslations.InputBoxOk, "OK");
             Translations.Add(ETranslations.InputBoxCancel, "Cancel");

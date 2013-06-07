@@ -43,7 +43,7 @@ namespace MinionReloggerLib.Imports
         public static extern bool IsWindowVisible(IntPtr hWnd);
 
         [DllImport("user32.dll")]
-        private static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
+        public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
 
         public static bool EnumTheWindows(IntPtr hWnd, IntPtr lParam, out string result)
         {
