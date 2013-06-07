@@ -231,8 +231,9 @@ namespace MinionReloggerLib.Threads.Implementation
                         User32.ShowWindowAsync(hwnd, User32.SW_SHOWMINIMIZED);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Logger.LoggingObject.Log(ELogType.Critical, ex.Message);
                 }
             }
         }

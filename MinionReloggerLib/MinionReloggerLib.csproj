@@ -90,6 +90,7 @@
     <Compile Include="Interfaces\IRelogWorker.cs" />
     <Compile Include="Interfaces\Objects\Account.cs" />
     <Compile Include="Interfaces\Objects\WatchObject.cs" />
+    <Compile Include="Interfaces\RelogComponents\IPCheckComponent.cs" />
     <Compile Include="Interfaces\RelogComponents\LaunchDelayComponent.cs" />
     <Compile Include="Interfaces\RelogComponents\RestartDelayComponent.cs" />
     <Compile Include="Interfaces\RelogWorkers\KillWorker.cs" />
@@ -107,6 +108,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

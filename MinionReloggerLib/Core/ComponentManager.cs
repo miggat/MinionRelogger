@@ -99,6 +99,7 @@ namespace MinionReloggerLib.Core
             AddComponent(new BreakComponent());
             AddComponent(new LaunchDelayComponent());
             AddComponent(new RestartDelayComponent());
+            AddComponent(new IPCheckComponent());
 
             try
             {

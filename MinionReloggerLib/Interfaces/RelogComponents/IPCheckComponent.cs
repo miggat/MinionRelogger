@@ -18,66 +18,87 @@
 *                                                                            *
 ******************************************************************************/
 
-using System;
-using System.Diagnostics;
-using System.Threading;
+using MinionReloggerLib.Configuration;
 using MinionReloggerLib.Enums;
-using MinionReloggerLib.Helpers.Language;
-using MinionReloggerLib.Imports;
-using MinionReloggerLib.Logging;
+using MinionReloggerLib.Helpers.MyIP;
+using MinionReloggerLib.Interfaces.Objects;
 
-namespace MinionReloggerLib.Interfaces.Objects
+namespace MinionReloggerLib.Interfaces.RelogComponents
 {
-    public class WatchObject : IObject
+    public class IPCheckComponent : IRelogComponent
     {
-        public WatchObject(Account account, DateTime time, Process process)
+        private bool _isEnabled;
+
+        public bool Check(Account account)
         {
-            Account = account;
-            Time = time;
-            Process = process;
+            return Config.Singleton.GeneralSettings.CheckForIP && account.Running;
         }
 
-        public Account Account { get; private set; }
-        public DateTime Time { get; private set; }
-        public Process Process { get; private set; }
-
-        public bool Check()
+        public IRelogComponent DoWork(Account account, ref EComponentResult result)
         {
-            return IsReady() && !Process.Responding && !Process.HasExited &&
-                   (DateTime.Now - Process.StartTime).TotalSeconds > 90;
-        }
-
-        public IObject DoWork()
-        {
-            if (!Process.HasExited)
+            if (Check(account))
             {
-                try
+                result = EComponentResult.Continue;
+                if (IsReady(account))
                 {
-                    bool result = GW2MinionLauncher.KillInstance((uint) Process.Id);
-                    Thread.Sleep(3000);
-                    if (!result || (Process != null && !Process.HasExited))
-                        Process.Kill();
-                }
-                catch (Exception ex)
-                {
-                    Logger.LoggingObject.Log(ELogType.Critical, ex.Message);
+                    result = EComponentResult.Kill;
                 }
             }
-            Update();
+            else
+            {
+                result = EComponentResult.Ignore;
+            }
             return this;
         }
 
-        public bool IsReady()
+        public bool IsReady(Account account)
         {
-            return (DateTime.Now - Time).TotalSeconds > 90;
+            return !GetMyIP.ListContainsMyIPAddress(Config.Singleton.GeneralSettings.AllowedIPAddresses);
         }
 
-        public void Update()
+        public void Update(Account account)
         {
-            Account.SetLastStopTime(DateTime.Now);
-            Logger.LoggingObject.Log(ELogType.Critical,
-                                     LanguageManager.Singleton.GetTranslation(ETranslations.WatchObjectNotRespondingFor),
-                                     Account.LoginName);
+        }
+
+        public bool PostWork(Account account)
+        {
+            return true;
+        }
+
+        public bool IsEnabled()
+        {
+            return _isEnabled;
+        }
+
+        public void Enable()
+        {
+            _isEnabled = true;
+        }
+
+        public void Disable()
+        {
+            _isEnabled = false;
+        }
+
+        public string GetName()
+        {
+            return "IPCheckComponent";
+        }
+
+        public void OnEnable()
+        {
+        }
+
+        public void OnDisable()
+        {
+        }
+
+        public void OnLoad()
+        {
+        }
+
+        public void OnUnload()
+        {
         }
     }
 }

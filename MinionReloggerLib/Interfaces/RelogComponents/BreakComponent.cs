@@ -18,6 +18,8 @@
 *                                                                            *
 ******************************************************************************/
 
+using System.Linq;
+using MinionReloggerLib.Configuration;
 using MinionReloggerLib.Enums;
 using MinionReloggerLib.Interfaces.Objects;
 
@@ -45,19 +47,19 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
             }
             else if (IsReady(account))
             {
-                //Account wanted = Config.Singleton.AccountSettings.FirstOrDefault(a => a.LoginName == LoginName);
-                //if (wanted != null)
-                //{
-                //    if (new KillWorker().DoWork(wanted).PostWork(wanted))
-                //    {
-                //        Update(account);
-                //    }
-                //}
+                Account wanted = Config.Singleton.AccountSettings.FirstOrDefault(a => a.LoginName == account.LoginName);
+                if (wanted != null)
+                {
+                    //    if (new KillWorker().DoWork(wanted).PostWork(wanted))
+                    //    {
+                    Update(account);
+                    //    }
+                }
                 result = EComponentResult.Kill;
             }
             else
             {
-                result = EComponentResult.Continue;
+                result = EComponentResult.Ignore;
             }
             return this;
         }
