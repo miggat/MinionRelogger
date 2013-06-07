@@ -21,6 +21,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MinionReloggerLib.Threads;
+using MinionReloggerLib.Threads.Implementation;
 
 namespace MinionReloggerLib.Core
 {
@@ -32,7 +33,11 @@ namespace MinionReloggerLib.Core
 
         protected ThreadManager()
         {
-            _threads = new List<IRelogThread>();
+            _threads = new List<IRelogThread> {new GW2ManagerThread(), new InstanceThread()};
+            foreach (IRelogThread thread in _threads)
+            {
+                EnableThread(thread.GetName());
+            }
         }
 
         public static ThreadManager Singleton
