@@ -97,6 +97,7 @@ namespace MinionReloggerLib.Threads.Implementation
                     {
                         Thread.Sleep(_delay);
                     }
+                    User32.EnumWindows(EnumTheWindows, IntPtr.Zero);
                     Thread.Sleep(Config.Singleton.GeneralSettings.PollingDelay);
                 }
                 Thread.Sleep(10000);

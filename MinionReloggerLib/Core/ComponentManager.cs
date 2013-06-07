@@ -100,6 +100,7 @@ namespace MinionReloggerLib.Core
             AddComponent(new LaunchDelayComponent());
             AddComponent(new RestartDelayComponent());
             AddComponent(new IPCheckComponent());
+            AddComponent(new ScheduleComponent());
 
             try
             {

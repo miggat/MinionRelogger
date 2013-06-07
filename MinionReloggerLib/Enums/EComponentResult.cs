@@ -30,6 +30,7 @@ namespace MinionReloggerLib.Enums
         Continue,
         ContinueForced,
         Kill,
-        KilForced,
+        KillForced,
+        Default,
     }
 }

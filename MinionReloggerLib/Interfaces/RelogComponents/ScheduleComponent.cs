@@ -19,64 +19,97 @@
 ******************************************************************************/
 
 using System;
-using System.Diagnostics;
-using System.Threading;
+using System.Linq;
+using MinionReloggerLib.Configuration;
 using MinionReloggerLib.Enums;
-using MinionReloggerLib.Helpers.Language;
-using MinionReloggerLib.Imports;
 using MinionReloggerLib.Interfaces.Objects;
-using MinionReloggerLib.Logging;
 
-namespace MinionReloggerLib.Interfaces.RelogWorkers
+namespace MinionReloggerLib.Interfaces.RelogComponents
 {
-    public class KillWorker : IRelogWorker
+    public class ScheduleComponent : IRelogComponent
     {
-        private bool _done;
+        private bool _isEnabled;
 
         public bool Check(Account account)
         {
-            return account.PID != uint.MaxValue;
+            return account.EnableScheduling;
         }
 
-        public IRelogWorker DoWork(Account account)
+        public IRelogComponent DoWork(Account account, ref EComponentResult result)
         {
             if (Check(account))
             {
-                try
+                result = EComponentResult.Continue;
+            }
+            else if (IsReady(account))
+            {
+                Account wanted = Config.Singleton.AccountSettings.FirstOrDefault(a => a.LoginName == account.LoginName);
+                if (wanted != null)
                 {
-                    _done = GW2MinionLauncher.KillInstance(account.PID);
-                    Thread.Sleep(3000);
-                    Process p = Process.GetProcessById((int) account.PID);
-                    if (!_done || (!p.HasExited))
-                        p.Kill();
+                    //    if (new KillWorker().DoWork(wanted).PostWork(wanted))
+                    //    {
+                    Update(account);
+                    //    }
                 }
-                catch (DllNotFoundException ex)
-                {
-                    Logger.LoggingObject.Log(ELogType.Error, ex.Message);
-                }
-                catch (BadImageFormatException ex)
-                {
-                    Logger.LoggingObject.Log(ELogType.Error, ex.Message);
-                }
-                catch (AccessViolationException ex)
-                {
-                    Logger.LoggingObject.Log(ELogType.Critical, ex.Message);
-                }
+                result = EComponentResult.Kill;
+            }
+            else
+            {
+                result = EComponentResult.Ignore;
             }
             return this;
         }
 
+        public bool IsReady(Account account)
+        {
+            double differenceFuture = (DateTime.Now - account.EndTime).TotalSeconds;
+            double differencePast = (account.StartTime - DateTime.Now).TotalSeconds;
+            return differenceFuture > 0 || differencePast > 0;
+        }
+
         public void Update(Account account)
         {
-            Logger.LoggingObject.Log(ELogType.Info,
-                                     LanguageManager.Singleton.GetTranslation(ETranslations.KillWorkerStoppingProcess),
-                                     account.PID);
-            account.SetLastStopTime(DateTime.Now);
         }
 
         public bool PostWork(Account account)
         {
-            return _done;
+            return true;
+        }
+
+        public bool IsEnabled()
+        {
+            return _isEnabled;
+        }
+
+        public void Enable()
+        {
+            _isEnabled = true;
+        }
+
+        public void Disable()
+        {
+            _isEnabled = false;
+        }
+
+        public string GetName()
+        {
+            return "ScheduleComponent";
+        }
+
+        public void OnEnable()
+        {
+        }
+
+        public void OnDisable()
+        {
+        }
+
+        public void OnLoad()
+        {
+        }
+
+        public void OnUnload()
+        {
         }
     }
 }

@@ -39,6 +39,9 @@ namespace MinionReloggerLib.Interfaces.Objects
         [ProtoMember(5)]
         public BreakObject BreakObject { get; private set; }
 
+        [ProtoMember(6)]
+        public bool EnableScheduling { get; private set; }
+
         public bool ManuallyScheduled { get; private set; }
         public bool ShouldBeRunning { get; private set; }
         public uint PID { get; private set; }
@@ -156,6 +159,11 @@ namespace MinionReloggerLib.Interfaces.Objects
         public void SetManuallyScheduled(bool newManuallyScheduled)
         {
             ManuallyScheduled = newManuallyScheduled;
+        }
+
+        public void SetSchedulingEnabled(bool newSchedulingEnabled)
+        {
+            EnableScheduling = newSchedulingEnabled;
         }
 
         public void SetBotPath(string newPath)
