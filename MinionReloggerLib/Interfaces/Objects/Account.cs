@@ -19,6 +19,7 @@
 ******************************************************************************/
 
 using System;
+using System.Diagnostics;
 using MinionReloggerLib.Helpers.Encryption;
 using ProtoBuf;
 
@@ -62,24 +63,39 @@ namespace MinionReloggerLib.Interfaces.Objects
             private set { _password = DataProtector.EncryptData(value); }
         }
 
+        internal bool Running
+        {
+            get
+            {
+                try
+                {
+                    Process.GetProcessById((int) PID);
+                }
+                catch (ArgumentException)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+
         public bool Check()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public IObject DoWork()
         {
-            throw new NotImplementedException();
+            return this;
         }
 
         public bool IsReady()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public void Update()
         {
-            throw new NotImplementedException();
         }
 
         public void SetNoSound(bool newNoSound)

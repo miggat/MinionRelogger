@@ -61,7 +61,6 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public void Update(Account account)
         {
-           
         }
 
         public bool PostWork(Account account)

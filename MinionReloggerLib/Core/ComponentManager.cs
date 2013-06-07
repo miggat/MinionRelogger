@@ -26,6 +26,7 @@ using System.Reflection;
 using MinionReloggerLib.Enums;
 using MinionReloggerLib.Helpers.Language;
 using MinionReloggerLib.Interfaces;
+using MinionReloggerLib.Interfaces.RelogComponents;
 using MinionReloggerLib.Logging;
 
 namespace MinionReloggerLib.Core
@@ -45,6 +46,11 @@ namespace MinionReloggerLib.Core
         {
             get { return _instance ?? (_instance = new ComponentManager()); }
             set { _instance = value; }
+        }
+
+        internal List<IRelogComponent> GetComponents()
+        {
+            return _components;
         }
 
         internal void AddComponent(IRelogComponent componentToAdd)
@@ -89,6 +95,8 @@ namespace MinionReloggerLib.Core
             }
 
             _components.Clear();
+
+            AddComponent(new BreakComponent());
 
             try
             {

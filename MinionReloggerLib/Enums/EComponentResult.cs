@@ -22,6 +22,11 @@ namespace MinionReloggerLib.Enums
 {
     public enum EComponentResult
     {
+        Ignore,
+        Halt,
+        HaltForced,
+        Start,
+        StartForced,
         Continue,
         ContinueForced,
         Kill,
