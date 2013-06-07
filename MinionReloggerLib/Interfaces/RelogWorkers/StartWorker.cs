@@ -6,6 +6,7 @@ using MinionReloggerLib.Enums;
 using MinionReloggerLib.Imports;
 using MinionReloggerLib.Interfaces.Objects;
 using MinionReloggerLib.Logging;
+using MinionReloggerLib.Helpers.Language;
 
 namespace MinionReloggerLib.Interfaces.RelogWorkers
 {
@@ -25,7 +26,7 @@ namespace MinionReloggerLib.Interfaces.RelogWorkers
             _attached = false;
             _newPID = uint.MaxValue;
             _gw2Processes = Process.GetProcessesByName("gw2");
-            Logger.LoggingObject.Log(ELogType.Debug, "Scanning GW2 instances.");
+            Logger.LoggingObject.Log(ELogType.Debug, LanguageManager.Singleton.GetTranslation(ETranslations.StartWorkerScanningForExisting));
             _attached = Check(account);
             _newPID = CreateNewProcess(_attached, account, ref _newPID);
             Update(account);
@@ -54,7 +55,7 @@ namespace MinionReloggerLib.Interfaces.RelogWorkers
                         if (Directory.Exists(account.BotPath) &&
                             File.Exists(account.BotPath + "\\GW2MinionLauncherDLL.dll"))
                             Kernel32.SetDllDirectory(account.BotPath);
-                        Logger.LoggingObject.Log(ELogType.Verbose, "Launching instance for {0} with {1}.",
+                        Logger.LoggingObject.Log(ELogType.Verbose, LanguageManager.Singleton.GetTranslation(ETranslations.StartWorkerLaunchingInstance),
                                                  account.LoginName, account.BotPath + "\\GW2MinionLauncherDLL.dll");
                         newPID = GW2MinionLauncher.LaunchAccount(Config.Singleton.GeneralSettings.GW2Path,
                                                                  account.LoginName, account.Password, account.NoSound);
@@ -84,11 +85,11 @@ namespace MinionReloggerLib.Interfaces.RelogWorkers
             {
                 if (GW2MinionLauncher.GetAccountName((uint) p.Id) == account.LoginName)
                 {
-                    Logger.LoggingObject.Log(ELogType.Verbose, "Found wanted process for {0}, no need to launch.",
+                    Logger.LoggingObject.Log(ELogType.Verbose, LanguageManager.Singleton.GetTranslation(ETranslations.StartWorkerFoundWantedProcess),
                                              account.LoginName);
                     try
                     {
-                        Logger.LoggingObject.Log(ELogType.Verbose, "Attaching to {0} with {1}.",
+                        Logger.LoggingObject.Log(ELogType.Verbose, LanguageManager.Singleton.GetTranslation(ETranslations.StartWorkerAttachingTo),
                                                  account.LoginName, account.BotPath + "\\GW2MinionLauncherDLL.dll");
                         if (Directory.Exists(account.BotPath) &&
                             File.Exists(account + "\\GW2MinionLauncherDLL.dll"))

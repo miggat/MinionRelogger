@@ -3,6 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using MinionReloggerLib.Enums;
+using MinionReloggerLib.Helpers.Language;
 using MinionReloggerLib.Logging;
 
 namespace MinionReloggerLib.Helpers.Encryption
@@ -22,10 +23,10 @@ namespace MinionReloggerLib.Helpers.Encryption
             }
             catch (CryptographicException ex)
             {
-                Logger.LoggingObject.Log(ELogType.Critical, "An error has occurred during data encryption!");
+                Logger.LoggingObject.Log(ELogType.Critical, LanguageManager.Singleton.GetTranslation(ETranslations.DataProtectorErrorOccured));
                 Logger.LoggingObject.Log(ELogType.Critical, ex.Message);
                 Logger.LoggingObject.Log(ELogType.Critical,
-                                         "Old save file has been deleted, must have been a different version or corrupt!");
+                                         LanguageManager.Singleton.GetTranslation(ETranslations.DataProtectorDeletedSaveFile));
                 try
                 {
                     File.Delete("Launcher.bin");
@@ -53,13 +54,14 @@ namespace MinionReloggerLib.Helpers.Encryption
             }
             catch (CryptographicException ex)
             {
-                Logger.LoggingObject.Log(ELogType.Critical, "An error has occurred during data encryption!");
+                Logger.LoggingObject.Log(ELogType.Critical, LanguageManager.Singleton.GetTranslation(ETranslations.DataProtectorErrorOccured));
                 Logger.LoggingObject.Log(ELogType.Critical, ex.Message);
                 Logger.LoggingObject.Log(ELogType.Critical,
-                                         "Old save file has been deleted, must have been a different version or corrupt!");
+                                         LanguageManager.Singleton.GetTranslation(ETranslations.DataProtectorDeletedSaveFile));
                 try
                 {
-                    File.Delete("Launcher.bin");
+                    File.Delete("" +
+                                "Launcher.bin");
                 }
                 catch (UnauthorizedAccessException ex2)
                 {

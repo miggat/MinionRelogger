@@ -1,5 +1,6 @@
 ﻿using System;
 using MinionReloggerLib.Enums;
+using MinionReloggerLib.Helpers.Language;
 using MinionReloggerLib.Imports;
 using MinionReloggerLib.Interfaces.Objects;
 using MinionReloggerLib.Logging;
@@ -41,7 +42,7 @@ namespace MinionReloggerLib.Interfaces.RelogWorkers
 
         public void Update(Account account)
         {
-            Logger.LoggingObject.Log(ELogType.Info, "Stopping process with PID {0}.", account.PID);
+            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.KillWorkerStoppingProcess), account.PID);
             account.SetLastStopTime(DateTime.Now);
         }
 

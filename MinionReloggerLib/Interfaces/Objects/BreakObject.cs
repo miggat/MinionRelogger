@@ -2,6 +2,7 @@
 using System.Linq;
 using MinionReloggerLib.Configuration;
 using MinionReloggerLib.Enums;
+using MinionReloggerLib.Helpers.Language;
 using MinionReloggerLib.Interfaces.RelogWorkers;
 using MinionReloggerLib.Logging;
 using ProtoBuf;
@@ -109,10 +110,10 @@ namespace MinionReloggerLib.Interfaces.Objects
             if (wanted != null)
             {
                 Logger.LoggingObject.Log(ELogType.Info,
-                                         "Break has expired for {0}, starting new cycle!",
+                                         LanguageManager.Singleton.GetTranslation(ETranslations.BreakObjectExpired),
                                          wanted.LoginName);
             }
-            Logger.LoggingObject.Log(ELogType.Info, "New Start Break: {0}, New End Break: {1}.",
+            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.BreakObjectNew),
                                      TimeActualStartBreak,
                                      TimeActualStopBreak);
         }

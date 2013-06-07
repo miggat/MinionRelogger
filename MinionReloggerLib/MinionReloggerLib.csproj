@@ -70,11 +70,16 @@
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Configuration\Settings\GeneralSettings.cs" />
     <Compile Include="CustomEventArgs\ReloggerEventArgs.cs" />
+    <Compile Include="Enums\ELanguages.cs" />
     <Compile Include="Enums\ELogType.cs" />
     <Compile Include="CustomEventArgs\LogEventArgs.cs" />
     <Compile Include="Enums\ERelogEventType.cs" />
+    <Compile Include="Enums\ETranslation.cs" />
     <Compile Include="Helpers\Encryption\DataProtector.cs" />
     <Compile Include="Helpers\Input\InputBox.cs" />
+    <Compile Include="Helpers\Language\LanguageManager.cs" />
+    <Compile Include="Helpers\Language\Languages\English.cs" />
+    <Compile Include="Helpers\Language\Languages\Language.cs" />
     <Compile Include="Helpers\MyIP\GetMyIP.cs" />
     <Compile Include="Helpers\MyIP\HTTPGet.cs" />
     <Compile Include="Imports\GW2MinionLauncher.cs" />
@@ -93,14 +98,10 @@
     <Compile Include="Interfaces\Objects\BreakObject.cs" />
     <Compile Include="Interfaces\IObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Threads\ThreadManager.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Threads\ThreadManager.Designer.cs">
-      <DependentUpon>ThreadManager.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Threads\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

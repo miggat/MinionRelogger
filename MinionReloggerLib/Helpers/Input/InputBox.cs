@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using MinionReloggerLib.Enums;
+using MinionReloggerLib.Helpers.Language;
 
 namespace MinionReloggerLib.Helpers.Input
 {
@@ -79,8 +81,8 @@ namespace MinionReloggerLib.Helpers.Input
             label.Text = promptText;
             textBox.Text = value;
 
-            buttonOk.Text = "OK";
-            buttonCancel.Text = "Cancel";
+            buttonOk.Text = LanguageManager.Singleton.GetTranslation(ETranslations.InputBoxOk);
+            buttonCancel.Text = LanguageManager.Singleton.GetTranslation(ETranslations.InputBoxCancel); ;
         }
 
         private static Form CreateControls(out Label label, out TextBox textBox, out Button buttonOk,

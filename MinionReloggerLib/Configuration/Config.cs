@@ -2,6 +2,7 @@
 using System.Linq;
 using MinionReloggerLib.Configuration.Settings;
 using MinionReloggerLib.Enums;
+using MinionReloggerLib.Helpers.Language;
 using MinionReloggerLib.Interfaces.Objects;
 using MinionReloggerLib.Logging;
 using ProtoBuf;
@@ -45,7 +46,7 @@ namespace MinionReloggerLib.Configuration
 
         public void AddAccount(Account account)
         {
-            Logger.LoggingObject.Log(ELogType.Debug, "Added new Account object.");
+            Logger.LoggingObject.Log(ELogType.Debug, LanguageManager.Singleton.GetTranslation(ETranslations.ConfigNewAccount));
             account.SetIndex(AccountSettings.Count);
             AccountSettings.Add(account);
         }

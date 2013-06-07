@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using MetroFramework;
 using MinionReloggerLib.Enums;
+using MinionReloggerLib.Helpers.Language;
 using MinionReloggerLib.Logging;
 using ProtoBuf;
 
@@ -48,51 +49,50 @@ namespace MinionReloggerLib.Configuration.Settings
 
         public void SetGW2Path(string newPath)
         {
-            Logger.LoggingObject.Log(ELogType.Info, "GW2 Path has been changed to: [{0}].", newPath);
+            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsGW2PathChanged), newPath);
             GW2Path = newPath;
         }
 
         public void SetPollingDelay(int newDelay)
         {
-            Logger.LoggingObject.Log(ELogType.Info, "Polling delay has been changed to: [{0}].", newDelay);
+            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsPollingDelayChanged), newDelay);
             PollingDelay = newDelay;
         }
 
         public void SetLaunchDelay(int newDelay)
         {
-            Logger.LoggingObject.Log(ELogType.Info, "Launch delay has been changed to: [{0}].", newDelay);
+            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsLaunchDelayChanged), newDelay);
             LaunchDelay = newDelay;
         }
 
         public void SetRestartDelay(int newDelay)
         {
-            Logger.LoggingObject.Log(ELogType.Info, "Restart delay has been changed to: [{0}].", newDelay);
+            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsRestartDelayChanged), newDelay);
             RestartDelay = newDelay;
         }
 
         public void SetStyleSetting(int newStyle)
         {
             StyleSetting = newStyle;
-            Logger.LoggingObject.Log(ELogType.Info, "Switched to color: {0}.", ((MetroColorStyle) newStyle).ToString());
+            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsColorChanged), ((MetroColorStyle)newStyle).ToString());
         }
 
         public void SetThemeSetting(int newTheme)
         {
             ThemeSetting = newTheme;
-            Logger.LoggingObject.Log(ELogType.Info, "Switched to theme: {0}.", ((MetroThemeStyle) newTheme).ToString());
+            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsThemeChanged), ((MetroThemeStyle)newTheme).ToString());
         }
 
         public void SetMinimizeWindows(bool newMinimize)
         {
             MinimizeWindows = newMinimize;
-            Logger.LoggingObject.Log(ELogType.Info, "Minimize windows has been changed to: {0}.", newMinimize);
+            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsMinimizeWindowsChanged), newMinimize);
         }
 
         public void AddIP(IPAddress newAddress)
         {
             AllowedIPAddresses.Add(newAddress);
-            Logger.LoggingObject.Log(ELogType.Info, "Added IP address {0} to the list of allowed addresses.",
-                                     newAddress.ToString());
+            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsAddedIP), newAddress.ToString());
         }
 
         public void DeleteIP(IPAddress toDeleteAddress)
@@ -101,14 +101,14 @@ namespace MinionReloggerLib.Configuration.Settings
             if (wanted == null)
                 return;
             AllowedIPAddresses.Remove(wanted);
-            Logger.LoggingObject.Log(ELogType.Info, "Deleted IP address {0} from the list of allowed addresses.",
+            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsDeletedIP),
                                      toDeleteAddress.ToString());
         }
 
         public void SetCheckForIP(bool newValue)
         {
             CheckForIP = newValue;
-            Logger.LoggingObject.Log(ELogType.Info, "Check for IP has been changed to: {0}.", newValue);
+            Logger.LoggingObject.Log(ELogType.Info, LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsCheckForIPChanged), newValue);
         }
     }
 }

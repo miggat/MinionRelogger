@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using MinionReloggerLib.Enums;
+using MinionReloggerLib.Helpers.Language;
 using MinionReloggerLib.Logging;
 
 namespace MinionReloggerLib.Interfaces.Objects
@@ -43,7 +44,7 @@ namespace MinionReloggerLib.Interfaces.Objects
         {
             Account.SetLastStopTime(DateTime.Now);
             Logger.LoggingObject.Log(ELogType.Critical,
-                                     "The GW 2 instance, running {0}, has not been responding for 90 seconds, restarting it.",
+                                     LanguageManager.Singleton.GetTranslation(ETranslations.WatchObjectNotRespondingFor),
                                      Account.LoginName);
         }
     }
