@@ -97,6 +97,8 @@ namespace MinionReloggerLib.Core
             _components.Clear();
 
             AddComponent(new BreakComponent());
+            AddComponent(new LaunchDelayComponent());
+            AddComponent(new RestartDelayComponent());
 
             try
             {
