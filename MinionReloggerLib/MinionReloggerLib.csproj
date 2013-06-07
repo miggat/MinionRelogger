@@ -102,10 +102,10 @@
     <Compile Include="Interfaces\Objects\BreakObject.cs" />
     <Compile Include="Interfaces\IObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Threads\Implementation\GW2ManagerThread.cs" />
+    <Compile Include="Threads\IRelogThread.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Threads\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
