@@ -125,7 +125,7 @@ namespace MinionReloggerLib.Threads.Implementation
                         {
                             continue;
                         }
-                        if (results.Any(r => r == EComponentResult.Kill))
+                        else if (results.Any(r => r == EComponentResult.Kill))
                         {
                             account.SetShouldBeRunning(false);
                             new KillWorker().DoWork(account).Update(account);
