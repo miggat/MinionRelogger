@@ -262,7 +262,7 @@ namespace MinionReloggerLib.Logging
             public void Log(ELogType type, string format, params object[] args)
             {
                 Console.WriteLine(string.Format(format, args));
-                    //Log(type, (format == null) ? null : string.Format(format, args));
+                //Log(type, (format == null) ? null : string.Format(format, args));
             }
 
             public void Log(ELogType type, string message)

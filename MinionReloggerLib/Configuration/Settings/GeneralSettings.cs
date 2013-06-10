@@ -98,7 +98,7 @@ namespace MinionReloggerLib.Configuration.Settings
             RestartDelay = newDelay;
         }
 
-    public void SetMinimizeWindows(bool newMinimize)
+        public void SetMinimizeWindows(bool newMinimize)
         {
             MinimizeWindows = newMinimize;
             Logger.LoggingObject.Log(ELogType.Info,

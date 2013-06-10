@@ -38,11 +38,6 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
         {
             if (Check(account))
             {
-                //Account wanted = Config.Singleton.AccountSettings.FirstOrDefault(a => a.LoginName == LoginName);
-                //if (wanted != null)
-                //{
-                //    new KillWorker().DoWork(wanted);
-                //}
                 result = EComponentResult.Kill;
             }
             else if (IsReady(account))
@@ -50,10 +45,7 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
                 Account wanted = Config.Singleton.AccountSettings.FirstOrDefault(a => a.LoginName == account.LoginName);
                 if (wanted != null)
                 {
-                    //    if (new KillWorker().DoWork(wanted).PostWork(wanted))
-                    //    {
                     Update(account);
-                    //    }
                 }
                 result = EComponentResult.Kill;
             }

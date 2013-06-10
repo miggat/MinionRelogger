@@ -73,7 +73,7 @@ namespace MinionReloggerLib.Interfaces.Objects
             {
                 try
                 {
-                   return Process.GetProcessById((int) PID).Id != 0;
+                    return Process.GetProcessById((int) PID).Id != 0;
                 }
                 catch (ArgumentException)
                 {
