@@ -21,7 +21,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using MetroFramework;
 using MinionReloggerLib.Enums;
 using MinionReloggerLib.Helpers.Language;
 using MinionReloggerLib.Logging;
@@ -99,23 +98,7 @@ namespace MinionReloggerLib.Configuration.Settings
             RestartDelay = newDelay;
         }
 
-        public void SetStyleSetting(int newStyle)
-        {
-            StyleSetting = newStyle;
-            Logger.LoggingObject.Log(ELogType.Info,
-                                     LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsColorChanged),
-                                     ((MetroColorStyle) newStyle).ToString());
-        }
-
-        public void SetThemeSetting(int newTheme)
-        {
-            ThemeSetting = newTheme;
-            Logger.LoggingObject.Log(ELogType.Info,
-                                     LanguageManager.Singleton.GetTranslation(ETranslations.GeneralSettingsThemeChanged),
-                                     ((MetroThemeStyle) newTheme).ToString());
-        }
-
-        public void SetMinimizeWindows(bool newMinimize)
+    public void SetMinimizeWindows(bool newMinimize)
         {
             MinimizeWindows = newMinimize;
             Logger.LoggingObject.Log(ELogType.Info,

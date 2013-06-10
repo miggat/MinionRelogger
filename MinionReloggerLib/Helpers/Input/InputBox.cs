@@ -27,9 +27,11 @@
 
 using System;
 using System.Drawing;
+using System.Reflection.Emit;
 using System.Windows.Forms;
 using MinionReloggerLib.Enums;
 using MinionReloggerLib.Helpers.Language;
+using Label = System.Windows.Forms.Label;
 
 namespace MinionReloggerLib.Helpers.Input
 {
