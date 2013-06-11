@@ -1,5 +1,4 @@
 # MinionRelogger #
-==============
 
 A custom relogger project for MMOMinion bots. 
 
