@@ -79,7 +79,7 @@ namespace MinionReloggerLib.Helpers.Language.Languages
 
             // class: StartWorker
             Translations.Add(ETranslations.StartWorkerLaunchingInstance, "Launching instance for {0} with {1}.");
-            Translations.Add(ETranslations.StartWorkerScanningForExisting, "Stopping process with PID {0}.");
+            Translations.Add(ETranslations.StartWorkerScanningForExisting, "Scanning existing GW2 instances.");
             Translations.Add(ETranslations.StartWorkerFoundWantedProcess,
                              "Found wanted process for {0}, no need to launch.");
             Translations.Add(ETranslations.StartWorkerAttachingTo, "Attaching to {0} with {1}.");

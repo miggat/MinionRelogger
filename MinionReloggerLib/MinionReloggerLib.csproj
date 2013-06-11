@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Configuration\Settings\GeneralSettings.cs" />
+    <Compile Include="Core\ComponentClass.cs" />
     <Compile Include="Core\ComponentManager.cs" />
     <Compile Include="Core\ThreadManager.cs" />
     <Compile Include="CustomEventArgs\ReloggerEventArgs.cs" />
@@ -85,9 +86,12 @@
     <Compile Include="Imports\GW2MinionLauncher.cs" />
     <Compile Include="Imports\Kernel32.cs" />
     <Compile Include="Imports\User32.cs" />
+    <Compile Include="Interfaces\IRelogComponentExtension.cs" />
     <Compile Include="Interfaces\IRelogWorker.cs" />
     <Compile Include="Interfaces\Objects\Account.cs" />
     <Compile Include="Interfaces\Objects\WatchObject.cs" />
+    <Compile Include="Interfaces\RelogComponents\BasicStartComponent.cs" />
+    <Compile Include="Interfaces\RelogComponents\BasicStopComponent.cs" />
     <Compile Include="Interfaces\RelogComponents\IPCheckComponent.cs" />
     <Compile Include="Interfaces\RelogComponents\LaunchDelayComponent.cs" />
     <Compile Include="Interfaces\RelogComponents\RestartDelayComponent.cs" />

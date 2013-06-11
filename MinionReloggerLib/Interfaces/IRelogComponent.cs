@@ -25,14 +25,7 @@ namespace MinionReloggerLib.Interfaces
 {
     public interface IRelogComponent
     {
-        bool Check(Account account);
         IRelogComponent DoWork(Account account, ref EComponentResult result);
-        bool IsReady(Account account);
-        void Update(Account account);
-        bool PostWork(Account account);
-        bool IsEnabled();
-        void Enable();
-        void Disable();
         string GetName();
         void OnEnable();
         void OnDisable();

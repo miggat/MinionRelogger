@@ -18,72 +18,39 @@
 *                                                                            *
 ******************************************************************************/
 
-using System.Linq;
-using MinionReloggerLib.Configuration;
 using MinionReloggerLib.Enums;
 using MinionReloggerLib.Interfaces.Objects;
+using MinionReloggerLib.Logging;
 
 namespace MinionReloggerLib.Interfaces.RelogComponents
 {
-    public class BreakComponent : IRelogComponent
+    public class BreakComponent : IRelogComponent, IRelogComponentExtension
     {
         private bool _isEnabled;
-
-        public bool Check(Account account)
-        {
-            return account.BreakObject != null && account.BreakObject.Check();
-        }
 
         public IRelogComponent DoWork(Account account, ref EComponentResult result)
         {
             if (Check(account))
             {
+                result = EComponentResult.Continue;
+                Logger.LoggingObject.Log("[" + account.LoginName + "] CONTINUE");
+                Update(account);
+            }
+            else if (IsReady(account) && account.Running)
+            {
                 result = EComponentResult.Kill;
+                Logger.LoggingObject.Log("[" + account.LoginName + "] KILL");
             }
             else if (IsReady(account))
             {
-                Account wanted = Config.Singleton.AccountSettings.FirstOrDefault(a => a.LoginName == account.LoginName);
-                if (wanted != null)
-                {
-                    Update(account);
-                }
-                result = EComponentResult.Kill;
+                result = EComponentResult.Halt;
+                Logger.LoggingObject.Log("[" + account.LoginName + "] HALT");
             }
             else
             {
                 result = EComponentResult.Ignore;
             }
             return this;
-        }
-
-        public bool IsReady(Account account)
-        {
-            return account.BreakObject != null && account.BreakObject.IsReady();
-        }
-
-        public void Update(Account account)
-        {
-            account.BreakObject.Update();
-        }
-
-        public bool PostWork(Account account)
-        {
-            return true;
-        }
-
-        public bool IsEnabled()
-        {
-            return _isEnabled;
-        }
-
-        public void Enable()
-        {
-            _isEnabled = true;
-        }
-
-        public void Disable()
-        {
-            _isEnabled = false;
         }
 
         public string GetName()
@@ -105,6 +72,41 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public void OnUnload()
         {
+        }
+
+        public bool Check(Account account)
+        {
+            return account.Running && account.BreakObject != null && account.BreakObject.Check() &&
+                   account.BreakObject.IsReady();
+        }
+
+        public bool IsReady(Account account)
+        {
+            return account.BreakObject != null && (account.BreakObject.Check() && !account.BreakObject.IsReady());
+        }
+
+        public void Update(Account account)
+        {
+            account.BreakObject.Update();
+        }
+
+        public void PostWork(Account account)
+        {
+        }
+
+        public bool IsEnabled()
+        {
+            return _isEnabled;
+        }
+
+        public void Enable()
+        {
+            _isEnabled = true;
+        }
+
+        public void Disable()
+        {
+            _isEnabled = false;
         }
     }
 }

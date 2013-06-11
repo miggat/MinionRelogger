@@ -37,8 +37,8 @@ namespace MinionReloggerLib.Configuration.Settings
         public GeneralSettings()
         {
             GW2Path = "";
-            PollingDelay = 3000;
-            LaunchDelay = 20000;
+            PollingDelay = 3;
+            LaunchDelay = 20;
             RestartDelay = 300;
         }
 

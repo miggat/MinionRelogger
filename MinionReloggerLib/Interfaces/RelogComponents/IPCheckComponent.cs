@@ -25,14 +25,9 @@ using MinionReloggerLib.Interfaces.Objects;
 
 namespace MinionReloggerLib.Interfaces.RelogComponents
 {
-    public class IPCheckComponent : IRelogComponent
+    public class IPCheckComponent : IRelogComponent, IRelogComponentExtension
     {
         private bool _isEnabled;
-
-        public bool Check(Account account)
-        {
-            return Config.Singleton.GeneralSettings.CheckForIP && account.Running;
-        }
 
         public IRelogComponent DoWork(Account account, ref EComponentResult result)
         {
@@ -49,35 +44,6 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
                 result = EComponentResult.Ignore;
             }
             return this;
-        }
-
-        public bool IsReady(Account account)
-        {
-            return !GetMyIP.ListContainsMyIPAddress(Config.Singleton.GeneralSettings.AllowedIPAddresses);
-        }
-
-        public void Update(Account account)
-        {
-        }
-
-        public bool PostWork(Account account)
-        {
-            return true;
-        }
-
-        public bool IsEnabled()
-        {
-            return _isEnabled;
-        }
-
-        public void Enable()
-        {
-            _isEnabled = true;
-        }
-
-        public void Disable()
-        {
-            _isEnabled = false;
         }
 
         public string GetName()
@@ -99,6 +65,39 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public void OnUnload()
         {
+        }
+
+        public bool Check(Account account)
+        {
+            return Config.Singleton.GeneralSettings.CheckForIP && account.Running;
+        }
+
+        public bool IsReady(Account account)
+        {
+            return !GetMyIP.ListContainsMyIPAddress(Config.Singleton.GeneralSettings.AllowedIPAddresses);
+        }
+
+        public void Update(Account account)
+        {
+        }
+
+        public void PostWork(Account account)
+        {
+        }
+
+        public bool IsEnabled()
+        {
+            return _isEnabled;
+        }
+
+        public void Enable()
+        {
+            _isEnabled = true;
+        }
+
+        public void Disable()
+        {
+            _isEnabled = false;
         }
     }
 }

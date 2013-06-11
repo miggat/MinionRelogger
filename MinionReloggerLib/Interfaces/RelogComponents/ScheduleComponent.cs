@@ -19,21 +19,15 @@
 ******************************************************************************/
 
 using System;
-using System.Linq;
-using MinionReloggerLib.Configuration;
 using MinionReloggerLib.Enums;
 using MinionReloggerLib.Interfaces.Objects;
+using MinionReloggerLib.Logging;
 
 namespace MinionReloggerLib.Interfaces.RelogComponents
 {
-    public class ScheduleComponent : IRelogComponent
+    public class ScheduleComponent : IRelogComponent, IRelogComponentExtension
     {
         private bool _isEnabled;
-
-        public bool Check(Account account)
-        {
-            return account.EnableScheduling;
-        }
 
         public IRelogComponent DoWork(Account account, ref EComponentResult result)
         {
@@ -42,15 +36,8 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
                 result = EComponentResult.Continue;
                 if (IsReady(account))
                 {
-                    Account wanted =
-                        Config.Singleton.AccountSettings.FirstOrDefault(a => a.LoginName == account.LoginName);
-                    if (wanted != null)
-                    {
-                        //    if (new KillWorker().DoWork(wanted).PostWork(wanted))
-                        //    {
-                        Update(account);
-                        //    }
-                    }
+                    Logger.LoggingObject.Log("[Schedule] KILL");
+                    Update(account);
                     result = EComponentResult.Kill;
                 }
             }
@@ -59,37 +46,6 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
                 result = EComponentResult.Ignore;
             }
             return this;
-        }
-
-        public bool IsReady(Account account)
-        {
-            double differenceFuture = (DateTime.Now - account.EndTime).TotalSeconds;
-            double differencePast = (account.StartTime - DateTime.Now).TotalSeconds;
-            return differenceFuture > 0 || differencePast > 0;
-        }
-
-        public void Update(Account account)
-        {
-        }
-
-        public bool PostWork(Account account)
-        {
-            return true;
-        }
-
-        public bool IsEnabled()
-        {
-            return _isEnabled;
-        }
-
-        public void Enable()
-        {
-            _isEnabled = true;
-        }
-
-        public void Disable()
-        {
-            _isEnabled = false;
         }
 
         public string GetName()
@@ -111,6 +67,42 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public void OnUnload()
         {
+        }
+
+        public bool Check(Account account)
+        {
+            return account.EnableScheduling;
+        }
+
+        public bool IsReady(Account account)
+        {
+            double differenceFuture = (DateTime.Now - account.EndTime).TotalSeconds;
+            double differencePast = (account.StartTime - DateTime.Now).TotalSeconds;
+            return account.Running && (differenceFuture > 0 || differencePast > 0);
+        }
+
+        public void Update(Account account)
+        {
+            account.Update();
+        }
+
+        public void PostWork(Account account)
+        {
+        }
+
+        public bool IsEnabled()
+        {
+            return _isEnabled;
+        }
+
+        public void Enable()
+        {
+            _isEnabled = true;
+        }
+
+        public void Disable()
+        {
+            _isEnabled = false;
         }
     }
 }

@@ -31,6 +31,17 @@ namespace MinionReloggerLib.Interfaces.Objects
         [ProtoMember(1)] private string _loginName;
         [ProtoMember(2)] private string _password;
 
+        public Account()
+        {
+            EnableScheduling = false;
+            ManuallyScheduled = false;
+            ShouldBeRunning = false;
+            PID = uint.MaxValue;
+            Index = 0;
+            StartTime = DateTime.Now;
+            EndTime = DateTime.Now.AddYears(1);
+        }
+
         [ProtoMember(3)]
         public bool NoSound { get; private set; }
 
@@ -174,6 +185,7 @@ namespace MinionReloggerLib.Interfaces.Objects
         public void SetBreak(BreakObject newBreak)
         {
             BreakObject = newBreak;
+            BreakObject.LoginName = LoginName;
         }
     }
 }

@@ -20,57 +20,86 @@
 
 using System;
 using MinionReloggerLib.Enums;
-using MinionReloggerLib.Helpers.Language;
-using MinionReloggerLib.Imports;
 using MinionReloggerLib.Interfaces.Objects;
-using MinionReloggerLib.Logging;
 
-namespace MinionReloggerLib.Interfaces.RelogWorkers
+namespace MinionReloggerLib.Interfaces.RelogComponents
 {
-    public class KillWorker : IRelogWorker
+    public class BasicStartComponent : IRelogComponent, IRelogComponentExtension
     {
-        private bool _done;
+        private bool _isEnabled;
 
-        public bool Check(Account account)
-        {
-            return account.Running && account.PID != uint.MaxValue && account.PID != 0;
-        }
-
-        public IRelogWorker DoWork(Account account)
+        public IRelogComponent DoWork(Account account, ref EComponentResult result)
         {
             if (Check(account))
             {
-                try
+                result = EComponentResult.Continue;
+                if (IsReady(account))
                 {
-                    _done = GW2MinionLauncher.KillInstance(account.PID);
+                    Update(account);
+                    result = EComponentResult.Start;
                 }
-                catch (DllNotFoundException ex)
-                {
-                    Logger.LoggingObject.Log(ELogType.Error, ex.Message);
-                }
-                catch (BadImageFormatException ex)
-                {
-                    Logger.LoggingObject.Log(ELogType.Error, ex.Message);
-                }
-                catch (AccessViolationException ex)
-                {
-                    Logger.LoggingObject.Log(ELogType.Critical, ex.Message);
-                }
+            }
+            else
+            {
+                result = EComponentResult.Ignore;
             }
             return this;
         }
 
-        public void Update(Account account)
+        public string GetName()
         {
-            Logger.LoggingObject.Log(ELogType.Info,
-                                     LanguageManager.Singleton.GetTranslation(ETranslations.KillWorkerStoppingProcess),
-                                     account.PID);
-            account.SetLastStopTime(DateTime.Now);
+            return "BasicStartComponent";
         }
 
-        public bool PostWork(Account account)
+        public void OnEnable()
         {
-            return _done;
+        }
+
+        public void OnDisable()
+        {
+        }
+
+        public void OnLoad()
+        {
+        }
+
+        public void OnUnload()
+        {
+        }
+
+        public bool Check(Account account)
+        {
+            return !account.Running;
+        }
+
+        public bool IsReady(Account account)
+        {
+            return !account.EnableScheduling || ((DateTime.Now - account.StartTime).TotalSeconds > 0 &&
+                                                 (DateTime.Now - account.EndTime).TotalSeconds < 0);
+        }
+
+        public void Update(Account account)
+        {
+            account.Update();
+        }
+
+        public void PostWork(Account account)
+        {
+        }
+
+        public bool IsEnabled()
+        {
+            return _isEnabled;
+        }
+
+        public void Enable()
+        {
+            _isEnabled = true;
+        }
+
+        public void Disable()
+        {
+            _isEnabled = false;
         }
     }
 }

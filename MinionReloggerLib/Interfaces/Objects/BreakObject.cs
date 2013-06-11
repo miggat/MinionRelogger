@@ -79,7 +79,7 @@ namespace MinionReloggerLib.Interfaces.Objects
 
         public bool Check()
         {
-            return BreakEnabled && (DateTime.Now - TimeActualStartBreak).TotalSeconds <= 0;
+            return BreakEnabled && (DateTime.Now - TimeActualStartBreak).TotalSeconds > 0;
         }
 
         public IObject DoWork()
@@ -89,14 +89,17 @@ namespace MinionReloggerLib.Interfaces.Objects
 
         public bool IsReady()
         {
-            return BreakEnabled && (TimeActualStopBreak - DateTime.Now).TotalSeconds <= 0;
+            return BreakEnabled && (DateTime.Now - TimeActualStopBreak).TotalSeconds > 0;
         }
 
         public void Update()
         {
             var r = new Random();
             Account wanted = Config.Singleton.AccountSettings.FirstOrDefault(a => a.LoginName == LoginName);
-            TimeSinceLastBreak = DateTime.Now;
+            TimeSinceLastBreak = wanted != null &&
+                                 (wanted.EnableScheduling && (wanted.StartTime - DateTime.Now).TotalSeconds > 0)
+                                     ? wanted.StartTime
+                                     : DateTime.Now;
             TimeSpanInterval = new TimeSpan(0, Interval, 0);
             TimeSpanToAddToLastBreak = new TimeSpan(0, r.Next(0, IntervalDelay), 0);
             TimeSpanToPause = new TimeSpan(0, BreakDuration, 0);

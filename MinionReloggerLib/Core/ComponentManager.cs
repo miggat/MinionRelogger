@@ -35,11 +35,11 @@ namespace MinionReloggerLib.Core
     {
         private static ComponentManager _instance;
 
-        private readonly List<IRelogComponent> _components;
+        private readonly List<ComponentClass> _components;
 
         protected ComponentManager()
         {
-            _components = new List<IRelogComponent>();
+            _components = new List<ComponentClass>();
         }
 
         public static ComponentManager Singleton
@@ -48,26 +48,45 @@ namespace MinionReloggerLib.Core
             set { _instance = value; }
         }
 
-        internal List<IRelogComponent> GetComponents()
+        internal List<ComponentClass> GetComponents()
         {
             return _components;
         }
 
         internal void AddComponent(IRelogComponent componentToAdd)
         {
-            _components.Add(componentToAdd);
+            _components.Add(new ComponentClass
+                {
+                    Component = componentToAdd,
+                    IsEnabled = true,
+                });
             Logger.LoggingObject.Log(ELogType.Info,
                                      LanguageManager.Singleton.GetTranslation(
                                          ETranslations.ComponentManagerAddedComponent), componentToAdd.GetName());
         }
 
+        internal void AddComponent(IRelogComponent componentToAdd, int index)
+        {
+            if (index > _components.Count - 1 && index <= _components.Count)
+            {
+                _components.Insert(index, new ComponentClass
+                    {
+                        Component = componentToAdd,
+                        IsEnabled = true,
+                    });
+                Logger.LoggingObject.Log(ELogType.Info,
+                                         LanguageManager.Singleton.GetTranslation(
+                                             ETranslations.ComponentManagerAddedComponent), componentToAdd.GetName());
+            }
+        }
+
         public void EnableComponent(string componentToEnable)
         {
-            IRelogComponent first = _components.FirstOrDefault(c => c.GetName() == componentToEnable);
+            ComponentClass first = _components.FirstOrDefault(c => c.Component.GetName() == componentToEnable);
             if (first != null)
             {
-                first.Enable();
-                first.OnEnable();
+                first.IsEnabled = true;
+                first.Component.OnEnable();
                 Logger.LoggingObject.Log(ELogType.Info,
                                          LanguageManager.Singleton.GetTranslation(
                                              ETranslations.ComponentManagerEnableComponent), componentToEnable);
@@ -76,22 +95,34 @@ namespace MinionReloggerLib.Core
 
         public void DisableComponent(string componentToDisable)
         {
-            IRelogComponent first = _components.FirstOrDefault(c => c.GetName() == componentToDisable);
+            ComponentClass first = _components.FirstOrDefault(c => c.Component.GetName() == componentToDisable);
             if (first != null)
             {
-                first.Disable();
-                first.OnDisable();
+                first.IsEnabled = false;
+                first.Component.OnDisable();
                 Logger.LoggingObject.Log(ELogType.Info,
                                          LanguageManager.Singleton.GetTranslation(
                                              ETranslations.ComponentManagerDisableComponent), componentToDisable);
             }
         }
 
+        public bool HasComponentWithName(string componentToCheck)
+        {
+            ComponentClass first = _components.FirstOrDefault(c => c.Component.GetName() == componentToCheck);
+            return first != null && first.Component != null;
+        }
+
+        public bool HasComponentOfType(Type componentToCheck)
+        {
+            ComponentClass first = _components.FirstOrDefault(c => c.Component.GetType() == componentToCheck);
+            return first != null && first.Component != null;
+        }
+
         public void LoadComponents()
         {
-            foreach (IRelogComponent relogComponent in _components)
+            foreach (ComponentClass relogComponent in _components)
             {
-                relogComponent.OnUnload();
+                relogComponent.Component.OnUnload();
             }
 
             _components.Clear();
@@ -101,12 +132,20 @@ namespace MinionReloggerLib.Core
             AddComponent(new RestartDelayComponent());
             AddComponent(new IPCheckComponent());
             AddComponent(new ScheduleComponent());
+            AddComponent(new BasicStopComponent());
+            AddComponent(new BasicStartComponent());
+
+            foreach (ComponentClass relogComponent in _components)
+            {
+                relogComponent.IsEnabled = true;
+                relogComponent.Component.OnEnable();
+            }
 
             try
             {
-                if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\Plugins"))
+                if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "Components"))
                     return;
-                var di = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "\\Plugins");
+                var di = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "Components");
                 foreach (FileInfo fi in di.GetFiles())
                 {
                     if (fi.Extension.ToLower() == ".dll")
@@ -117,7 +156,7 @@ namespace MinionReloggerLib.Core
                             if (assembly != null)
                             {
                                 String fName = fi.Name.Replace(fi.Extension, String.Empty);
-                                IRelogComponent toRemove = _components.FirstOrDefault(c => c.GetName() == fName);
+                                ComponentClass toRemove = _components.FirstOrDefault(c => c.Component.GetName() == fName);
                                 if (toRemove != null)
                                     _components.Remove(toRemove);
                                 foreach (Type t in assembly.GetTypes())
@@ -143,10 +182,10 @@ namespace MinionReloggerLib.Core
                 Logger.LoggingObject.Log(ELogType.Error, ex.Message);
             }
 
-            foreach (IRelogComponent relogComponent in _components)
+            foreach (ComponentClass relogComponent in _components)
             {
-                EnableComponent(relogComponent.GetName());
-                relogComponent.OnLoad();
+                EnableComponent(relogComponent.Component.GetName());
+                relogComponent.Component.OnLoad();
             }
         }
     }

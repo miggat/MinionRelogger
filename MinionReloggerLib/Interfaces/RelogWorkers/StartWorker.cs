@@ -52,14 +52,13 @@ namespace MinionReloggerLib.Interfaces.RelogWorkers
                                          ETranslations.StartWorkerScanningForExisting));
             _attached = Check(account);
             _newPID = CreateNewProcess(_attached, account, ref _newPID);
-            Update(account);
-            PostWork(account);
             return this;
         }
 
         public void Update(Account account)
         {
             account.SetPID(_newPID);
+            account.SetLastStartTime(DateTime.Now);
         }
 
         public bool PostWork(Account account)
@@ -76,12 +75,12 @@ namespace MinionReloggerLib.Interfaces.RelogWorkers
                     try
                     {
                         if (Directory.Exists(account.BotPath) &&
-                            File.Exists(account.BotPath + "\\GW2MinionLauncherDLL.dll"))
+                            File.Exists(account.BotPath + "GW2MinionLauncherDLL.dll"))
                             Kernel32.SetDllDirectory(account.BotPath);
                         Logger.LoggingObject.Log(ELogType.Verbose,
                                                  LanguageManager.Singleton.GetTranslation(
                                                      ETranslations.StartWorkerLaunchingInstance),
-                                                 account.LoginName, account.BotPath + "\\GW2MinionLauncherDLL.dll");
+                                                 account.LoginName, account.BotPath + "GW2MinionLauncherDLL.dll");
                         newPID = GW2MinionLauncher.LaunchAccount(Config.Singleton.GeneralSettings.GW2Path,
                                                                  account.LoginName, account.Password, account.NoSound);
                     }

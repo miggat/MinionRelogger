@@ -56,7 +56,7 @@ namespace MinionReloggerLib.Imports
                 AccountName(pid, buf, buf.Capacity);
                 return buf.ToString();
             }
-            catch (AccessViolationException ex)
+            catch (Exception ex)
             {
                 Logger.LoggingObject.Log(ELogType.Critical, ex.Message);
             }
@@ -68,5 +68,8 @@ namespace MinionReloggerLib.Imports
 
         [DllImport("GW2MinionLauncherDLL.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint BuildNumber(uint pid);
+
+        [DllImport("GW2MinionLauncherDLL.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        public static extern uint BuildNumberFromApi();
     }
 }

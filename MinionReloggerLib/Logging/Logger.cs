@@ -39,6 +39,11 @@ namespace MinionReloggerLib.Logging
     {
         public static ListBoxLog LoggingObject;
 
+        public static void Initialize(ListBox listBox)
+        {
+            LoggingObject = new ListBoxLog(listBox);
+        }
+
         public sealed class ListBoxLog : IDisposable
         {
             private const string DefaultMessageFormat = "{0} [{5}] ==> {8}";

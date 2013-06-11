@@ -25,7 +25,6 @@ using System.Threading;
 using MinionReloggerLib.Configuration;
 using MinionReloggerLib.Core;
 using MinionReloggerLib.Enums;
-using MinionReloggerLib.Interfaces;
 using MinionReloggerLib.Interfaces.Objects;
 using MinionReloggerLib.Interfaces.RelogWorkers;
 
@@ -101,10 +100,12 @@ namespace MinionReloggerLib.Threads.Implementation
                     foreach (Account account in Config.Singleton.AccountSettings.ToArray())
                     {
                         var results = new List<EComponentResult>();
-                        foreach (IRelogComponent component in ComponentManager.Singleton.GetComponents().ToArray())
+                        foreach (
+                            ComponentClass component in
+                                ComponentManager.Singleton.GetComponents().ToArray().Where(c => c.IsEnabled))
                         {
                             var result = EComponentResult.Default;
-                            component.DoWork(account, ref result);
+                            component.Component.DoWork(account, ref result);
                             results.Add(result);
                         }
                         if (results.Any(r => r == EComponentResult.KillForced))
@@ -133,11 +134,10 @@ namespace MinionReloggerLib.Threads.Implementation
                         else if (results.Any(r => r == EComponentResult.Halt))
                         {
                             account.SetShouldBeRunning(false);
-                            account.SetLastStopTime(DateTime.Now);
                         }
                         else if (results.Any(r => r == EComponentResult.Start))
                         {
-                            new StartWorker().DoWork(account);
+                            new StartWorker().DoWork(account).Update(account);
                         }
                         else if (results.Any(r => r == EComponentResult.Continue))
                         {
@@ -152,7 +152,7 @@ namespace MinionReloggerLib.Threads.Implementation
                             continue;
                         }
                     }
-                    Thread.Sleep(Config.Singleton.GeneralSettings.PollingDelay);
+                    Thread.Sleep(Config.Singleton.GeneralSettings.PollingDelay*1000);
                 }
                 Thread.Sleep(10000);
             }

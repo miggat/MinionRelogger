@@ -26,20 +26,15 @@ using MinionReloggerLib.Interfaces.Objects;
 
 namespace MinionReloggerLib.Interfaces.RelogComponents
 {
-    public class LaunchDelayComponent : IRelogComponent
+    public class LaunchDelayComponent : IRelogComponent, IRelogComponentExtension
     {
         private bool _isEnabled;
-
-        public bool Check(Account account)
-        {
-            return account.ShouldBeRunning && !account.Running;
-        }
 
         public IRelogComponent DoWork(Account account, ref EComponentResult result)
         {
             if (Check(account))
             {
-                result = EComponentResult.Start;
+                result = EComponentResult.Continue;
                 if (IsReady(account))
                 {
                     result = EComponentResult.Halt;
@@ -50,38 +45,6 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
                 result = EComponentResult.Ignore;
             }
             return this;
-        }
-
-        public bool IsReady(Account account)
-        {
-            return
-                Config.Singleton.AccountSettings.Any(
-                    acc =>
-                    (DateTime.Now - account.LastStart).TotalSeconds < Config.Singleton.GeneralSettings.LaunchDelay);
-        }
-
-        public void Update(Account account)
-        {
-        }
-
-        public bool PostWork(Account account)
-        {
-            return true;
-        }
-
-        public bool IsEnabled()
-        {
-            return _isEnabled;
-        }
-
-        public void Enable()
-        {
-            _isEnabled = true;
-        }
-
-        public void Disable()
-        {
-            _isEnabled = false;
         }
 
         public string GetName()
@@ -103,6 +66,42 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public void OnUnload()
         {
+        }
+
+        public bool Check(Account account)
+        {
+            return !account.Running;
+        }
+
+        public bool IsReady(Account account)
+        {
+            return
+                Config.Singleton.AccountSettings.Any(
+                    acc =>
+                    (DateTime.Now - acc.LastStart).TotalSeconds < Config.Singleton.GeneralSettings.LaunchDelay);
+        }
+
+        public void Update(Account account)
+        {
+        }
+
+        public void PostWork(Account account)
+        {
+        }
+
+        public bool IsEnabled()
+        {
+            return _isEnabled;
+        }
+
+        public void Enable()
+        {
+            _isEnabled = true;
+        }
+
+        public void Disable()
+        {
+            _isEnabled = false;
         }
     }
 }
