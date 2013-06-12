@@ -19,9 +19,11 @@
 ******************************************************************************/
 
 using System;
+using System.Windows.Forms;
 using MinionReloggerLib.Enums;
 using MinionReloggerLib.Interfaces;
 using MinionReloggerLib.Interfaces.Objects;
+using System.Windows.Forms;
 
 namespace BasicStopComponent
 {
@@ -66,6 +68,11 @@ namespace BasicStopComponent
 
         public void OnUnload()
         {
+        }
+
+        public Form ShowSettingsForm()
+        {
+            return new Form();
         }
 
         public bool Check(Account account)

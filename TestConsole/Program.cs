@@ -57,6 +57,11 @@ namespace TestConsole
             Config.Singleton.AddAccount(test3);
             test3.BreakObject.Update();
 
+            foreach (var name in ComponentManager.Singleton.GetComponentNames())
+            {
+                ComponentManager.Singleton.OpenSettingsForm(name);
+            }
+
             Console.ReadLine();
         }
     }

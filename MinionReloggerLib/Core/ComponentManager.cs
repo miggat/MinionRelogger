@@ -117,6 +117,25 @@ namespace MinionReloggerLib.Core
             return first != null && first.Component != null;
         }
 
+        public void OpenSettingsForm(IRelogComponent componentToCall)
+        {
+            componentToCall.ShowSettingsForm().ShowDialog();
+        }
+
+        public void OpenSettingsForm(string nameofComponentToCall)
+        {
+            ComponentClass first = _components.FirstOrDefault(c => c.Component.GetName() == nameofComponentToCall);
+            if (first != null)
+            {
+                OpenSettingsForm(first.Component);
+            }
+        }
+
+        public List<string> GetComponentNames()
+        {
+            return _components.Select(componentClass => componentClass.Component.GetName()).ToList();
+        }
+
         public void LoadComponents()
         {
             foreach (ComponentClass relogComponent in _components)

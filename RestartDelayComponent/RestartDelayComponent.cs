@@ -19,10 +19,12 @@
 ******************************************************************************/
 
 using System;
+using System.Windows.Forms;
 using MinionReloggerLib.Configuration;
 using MinionReloggerLib.Enums;
 using MinionReloggerLib.Interfaces;
 using MinionReloggerLib.Interfaces.Objects;
+using System.Windows.Forms;
 
 namespace RestartDelayComponent
 {
@@ -66,6 +68,11 @@ namespace RestartDelayComponent
 
         public void OnUnload()
         {
+        }
+
+        public Form ShowSettingsForm()
+        {
+            return new Form();
         }
 
         public bool Check(Account account)

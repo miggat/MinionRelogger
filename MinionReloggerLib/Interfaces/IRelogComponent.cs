@@ -18,6 +18,7 @@
 *                                                                            *
 ******************************************************************************/
 
+using System.Windows.Forms;
 using MinionReloggerLib.Enums;
 using MinionReloggerLib.Interfaces.Objects;
 
@@ -31,5 +32,6 @@ namespace MinionReloggerLib.Interfaces
         void OnDisable();
         void OnLoad();
         void OnUnload();
+        Form ShowSettingsForm();
     }
 }

@@ -18,11 +18,13 @@
 *                                                                            *
 ******************************************************************************/
 
+using System.Windows.Forms;
 using MinionReloggerLib.Configuration;
 using MinionReloggerLib.Enums;
 using MinionReloggerLib.Helpers.MyIP;
 using MinionReloggerLib.Interfaces;
 using MinionReloggerLib.Interfaces.Objects;
+using System.Windows.Forms;
 
 namespace IPCheckComponent
 {
@@ -66,6 +68,11 @@ namespace IPCheckComponent
 
         public void OnUnload()
         {
+        }
+
+        public Form ShowSettingsForm()
+        {
+            return new Form();
         }
 
         public bool Check(Account account)

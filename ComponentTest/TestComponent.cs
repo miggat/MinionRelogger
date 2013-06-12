@@ -1,7 +1,9 @@
-﻿using MinionReloggerLib.Enums;
+﻿using System.Windows.Forms;
+using MinionReloggerLib.Enums;
 using MinionReloggerLib.Interfaces;
 using MinionReloggerLib.Interfaces.Objects;
 using MinionReloggerLib.Logging;
+using System.Windows.Forms;
 
 namespace ComponentTest
 {
@@ -37,6 +39,11 @@ namespace ComponentTest
         public void OnUnload()
         {
             Logger.LoggingObject.Log("[TestComponent] OnUnload");
+        }
+
+        public Form ShowSettingsForm()
+        {
+            return new Form();
         }
     }
 }
