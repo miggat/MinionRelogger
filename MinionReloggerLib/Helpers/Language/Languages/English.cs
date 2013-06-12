@@ -34,9 +34,9 @@ namespace MinionReloggerLib.Helpers.Language.Languages
             Translations.Add(ETranslations.ComponentManagerAddedComponent,
                              "A component with the name {0} has been added to the list.");
             Translations.Add(ETranslations.ComponentManagerDisableComponent,
-                             "Component with the name {0} has been disabled.");
+                             "A component with the name {0} has been disabled.");
             Translations.Add(ETranslations.ComponentManagerEnableComponent,
-                             "Component with the name {0} has been enabled.");
+                             "A component with the name {0} has been enabled.");
 
             // class: Config
             Translations.Add(ETranslations.ConfigNewAccount, "Added new Account object.");
