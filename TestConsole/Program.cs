@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using MinionReloggerLib.Configuration;
 using MinionReloggerLib.Core;
-using MinionReloggerLib.Imports;
 using MinionReloggerLib.Interfaces.Objects;
 using MinionReloggerLib.Logging;
 
