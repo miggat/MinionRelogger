@@ -38,7 +38,9 @@ namespace IPCheckComponent
                 result = EComponentResult.Continue;
                 if (IsReady(account))
                 {
-                    result = EComponentResult.Kill;
+                    result = EComponentResult.Halt;
+                    if (account.Running)
+                        result = EComponentResult.Kill;
                 }
             }
             else
@@ -71,12 +73,17 @@ namespace IPCheckComponent
 
         public Form ShowSettingsForm()
         {
-            return new Form();
+            return new SettingsForm();
+        }
+
+        public ESettingsType GetSettingType()
+        {
+            return ESettingsType.Global;
         }
 
         public bool Check(Account account)
         {
-            return Config.Singleton.GeneralSettings.CheckForIP && account.Running;
+            return Config.Singleton.GeneralSettings.CheckForIP;
         }
 
         public bool IsReady(Account account)

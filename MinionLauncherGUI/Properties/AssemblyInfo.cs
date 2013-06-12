@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("TestConsole")]
+[assembly: AssemblyTitle("MinionLauncherGUI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("The Internet")]
-[assembly: AssemblyProduct("TestConsole")]
+[assembly: AssemblyProduct("MinionLauncherGUI")]
 [assembly: AssemblyCopyright("Copyright © The Internet 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
-[assembly: Guid("d47961b1-a2f5-49b4-8ab1-e26d57cabde7")]
+[assembly: Guid("814c1481-27a7-46a7-be5b-3f31194306fb")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -74,7 +74,12 @@ namespace BreakComponent
 
         public Form ShowSettingsForm()
         {
-            return new Form();
+            return new SettingsForm();
+        }
+
+        public ESettingsType GetSettingType()
+        {
+            return ESettingsType.AccountSpecific;
         }
 
         public bool Check(Account account)

@@ -44,5 +44,10 @@ namespace ComponentTest
         {
             return new Form();
         }
+
+        public ESettingsType GetSettingType()
+        {
+            return ESettingsType.None;
+        }
     }
 }

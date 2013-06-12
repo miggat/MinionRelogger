@@ -40,6 +40,8 @@ namespace MinionReloggerLib.Configuration.Settings
             PollingDelay = 3;
             LaunchDelay = 20;
             RestartDelay = 300;
+            StyleSetting = "Blue";
+            ThemeSetting = "Light";
         }
 
         [ProtoMember(1)]
@@ -49,10 +51,10 @@ namespace MinionReloggerLib.Configuration.Settings
         public int PollingDelay { get; private set; }
 
         [ProtoMember(3)]
-        public int StyleSetting { get; private set; }
+        public string StyleSetting { get; private set; }
 
         [ProtoMember(4)]
-        public int ThemeSetting { get; private set; }
+        public string ThemeSetting { get; private set; }
 
         [ProtoMember(5)]
         public bool MinimizeWindows { get; private set; }
@@ -131,6 +133,26 @@ namespace MinionReloggerLib.Configuration.Settings
             Logger.LoggingObject.Log(ELogType.Info,
                                      LanguageManager.Singleton.GetTranslation(
                                          ETranslations.GeneralSettingsCheckForIPChanged), newValue);
+        }
+
+        public bool AlreadyContainsIP(IPAddress newAddress)
+        {
+            return (AllowedIPAddresses.Any(ip => ip.Equals(newAddress)));
+        }
+
+        public void EmptyIPList()
+        {
+            AllowedIPAddresses.Clear();
+        }
+
+        public void SetStyle(string newStyle)
+        {
+            StyleSetting = newStyle;
+        }
+
+        public void SetTheme(string newTheme)
+        {
+            ThemeSetting = newTheme;
         }
     }
 }

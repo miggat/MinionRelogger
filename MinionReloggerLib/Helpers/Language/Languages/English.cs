@@ -40,6 +40,13 @@ namespace MinionReloggerLib.Helpers.Language.Languages
 
             // class: Config
             Translations.Add(ETranslations.ConfigNewAccount, "Added new Account object.");
+            Translations.Add(ETranslations.ConfigErrorDuringEncryption, "An error has occurred during data encryption!");
+            Translations.Add(ETranslations.ConfigOldSaveFileDeleted,
+                             "Old save file has been deleted, must have been a different version or corrupt!");
+            Translations.Add(ETranslations.ConfigCouldntFindValidSaveFile,
+                             "Couldn't find a valid save file. Please create a new save file.");
+            Translations.Add(ETranslations.ConfigDumpIntegers,
+                             "Polling Delay: {0}, Launch Delay: {1}, Restart Delay: {2}");
 
             // class: DataProtector
             Translations.Add(ETranslations.DataProtectorErrorOccured, "An error has occurred during data encryption!");

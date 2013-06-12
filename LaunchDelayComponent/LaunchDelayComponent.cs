@@ -72,7 +72,12 @@ namespace LaunchDelayComponent
 
         public Form ShowSettingsForm()
         {
-            return new Form();
+            return new SettingsForm();
+        }
+
+        public ESettingsType GetSettingType()
+        {
+            return ESettingsType.Global;
         }
 
         public bool Check(Account account)

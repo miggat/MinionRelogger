@@ -51,7 +51,7 @@ namespace MinionReloggerLib.Logging
 
             private readonly int _maxEntriesInListBox;
             private readonly string _messageFormat;
-            private bool _canAdd;
+            private bool _canAdd = true;
             private bool _disposed;
             private ListBox _listBox;
             private bool _paused;
@@ -75,8 +75,6 @@ namespace MinionReloggerLib.Logging
                 _maxEntriesInListBox = maxLinesInListbox;
 
                 _paused = false;
-
-                _canAdd = listBox.IsHandleCreated;
 
                 _listBox.SelectionMode = SelectionMode.MultiExtended;
 
@@ -266,13 +264,12 @@ namespace MinionReloggerLib.Logging
 
             public void Log(ELogType type, string format, params object[] args)
             {
-                Console.WriteLine(string.Format(format, args));
-                //Log(type, (format == null) ? null : string.Format(format, args));
+                Log(type, (format == null) ? null : string.Format(format, args));
             }
 
             public void Log(ELogType type, string message)
             {
-                Console.WriteLine(message); //WriteEvent(new LogEventArgs(type, message));
+                WriteEvent(new LogEventArgs(type, message));
             }
 
             ~ListBoxLog()

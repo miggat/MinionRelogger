@@ -110,12 +110,10 @@ namespace MinionReloggerLib.Threads.Implementation
                         }
                         if (results.Any(r => r == EComponentResult.KillForced))
                         {
-                            account.SetShouldBeRunning(false);
                             new KillWorker().DoWork(account).Update(account);
                         }
                         else if (results.Any(r => r == EComponentResult.HaltForced))
                         {
-                            account.SetShouldBeRunning(false);
                             account.SetLastStopTime(DateTime.Now);
                         }
                         else if (results.Any(r => r == EComponentResult.StartForced))
@@ -128,12 +126,11 @@ namespace MinionReloggerLib.Threads.Implementation
                         }
                         else if (results.Any(r => r == EComponentResult.Kill))
                         {
-                            account.SetShouldBeRunning(false);
                             new KillWorker().DoWork(account).Update(account);
                         }
                         else if (results.Any(r => r == EComponentResult.Halt))
                         {
-                            account.SetShouldBeRunning(false);
+                            continue;
                         }
                         else if (results.Any(r => r == EComponentResult.Start))
                         {

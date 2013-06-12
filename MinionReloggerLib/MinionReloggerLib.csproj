@@ -75,6 +75,7 @@
     <Compile Include="Enums\ELogType.cs" />
     <Compile Include="CustomEventArgs\LogEventArgs.cs" />
     <Compile Include="Enums\ERelogEventType.cs" />
+    <Compile Include="Enums\ESettingsType.cs" />
     <Compile Include="Enums\ETranslations.cs" />
     <Compile Include="Helpers\Encryption\DataProtector.cs" />
     <Compile Include="Helpers\Input\InputBox.cs" />

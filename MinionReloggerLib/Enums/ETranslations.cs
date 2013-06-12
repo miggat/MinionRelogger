@@ -33,6 +33,10 @@ namespace MinionReloggerLib.Enums
 
         // class: Config
         ConfigNewAccount,
+        ConfigErrorDuringEncryption,
+        ConfigOldSaveFileDeleted,
+        ConfigCouldntFindValidSaveFile,
+        ConfigDumpIntegers,
 
         // class: DataProtector
         DataProtectorErrorOccured,

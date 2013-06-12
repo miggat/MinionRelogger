@@ -71,7 +71,12 @@ namespace RestartDelayComponent
 
         public Form ShowSettingsForm()
         {
-            return new Form();
+            return new SettingsForm();
+        }
+
+        public ESettingsType GetSettingType()
+        {
+            return ESettingsType.Global;
         }
 
         public bool Check(Account account)
@@ -81,9 +86,9 @@ namespace RestartDelayComponent
 
         public bool IsReady(Account account)
         {
-            return (DateTime.Now - account.LastCrash).TotalSeconds >= Config.Singleton.GeneralSettings.RestartDelay &&
-                   (DateTime.Now - account.LastStop).TotalSeconds >= Config.Singleton.GeneralSettings.RestartDelay &&
-                   (DateTime.Now - account.LastStart).TotalSeconds >=
+            return (DateTime.Now - account.LastCrash).TotalSeconds <= Config.Singleton.GeneralSettings.RestartDelay &&
+                   (DateTime.Now - account.LastStop).TotalSeconds <= Config.Singleton.GeneralSettings.RestartDelay &&
+                   (DateTime.Now - account.LastStart).TotalSeconds <=
                    Config.Singleton.GeneralSettings.RestartDelay;
         }
 

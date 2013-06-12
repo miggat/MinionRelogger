@@ -74,6 +74,11 @@ namespace SchedulerComponent
             return new Form();
         }
 
+        public ESettingsType GetSettingType()
+        {
+            return ESettingsType.AccountSpecific;
+        }
+
         public bool Check(Account account)
         {
             return account.EnableScheduling;

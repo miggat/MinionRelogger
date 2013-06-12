@@ -18,8 +18,11 @@
 *                                                                            *
 ******************************************************************************/
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using MinionReloggerLib.Configuration.Settings;
 using MinionReloggerLib.Enums;
 using MinionReloggerLib.Helpers.Language;
@@ -75,6 +78,136 @@ namespace MinionReloggerLib.Configuration
         public void EraseAccountList()
         {
             AccountSettings.Clear();
+        }
+
+        public static void SaveSettingsToFile()
+        {
+            try
+            {
+                using (FileStream file = File.Create("Launcher.bin"))
+                {
+                    Singleton.GeneralSettings.AllowedIPAddressesAsString.Clear();
+                    foreach (IPAddress ip in Singleton.GeneralSettings.AllowedIPAddresses)
+                    {
+                        Singleton.GeneralSettings.AllowedIPAddressesAsString.Add(ip.ToString());
+                    }
+                    Serializer.Serialize(file, Singleton);
+                }
+            }
+            catch (ProtoException ex)
+            {
+                Logger.LoggingObject.Log(ELogType.Critical,
+                                         LanguageManager.Singleton.GetTranslation(
+                                             ETranslations.ConfigErrorDuringEncryption));
+                Logger.LoggingObject.Log(ELogType.Critical, ex.Message);
+                Logger.LoggingObject.Log(ELogType.Critical,
+                                         LanguageManager.Singleton.GetTranslation(ETranslations.ConfigOldSaveFileDeleted));
+                try
+                {
+                    File.Delete("Launcher.bin");
+                }
+                catch (UnauthorizedAccessException ex2)
+                {
+                    Logger.LoggingObject.Log(ELogType.Critical, ex2.Message);
+                }
+                catch (IOException ex3)
+                {
+                    Logger.LoggingObject.Log(ELogType.Critical, ex3.Message);
+                }
+            }
+            catch (UnauthorizedAccessException ex2)
+            {
+                Logger.LoggingObject.Log(ELogType.Critical, ex2.Message);
+            }
+            catch (IOException ex3)
+            {
+                Logger.LoggingObject.Log(ELogType.Critical, ex3.Message);
+            }
+        }
+
+        public static bool LoadConfig(bool manual)
+        {
+            if (File.Exists("Launcher.bin"))
+            {
+                try
+                {
+                    LoadConfigFromFile();
+                }
+                catch (ProtoException ex)
+                {
+                    Logger.LoggingObject.Log(ELogType.Critical,
+                                             LanguageManager.Singleton.GetTranslation(
+                                                 ETranslations.ConfigErrorDuringEncryption));
+                    Logger.LoggingObject.Log(ELogType.Critical, ex.Message);
+                    Logger.LoggingObject.Log(ELogType.Critical,
+                                             LanguageManager.Singleton.GetTranslation(
+                                                 ETranslations.ConfigOldSaveFileDeleted));
+                    try
+                    {
+                        File.Delete("Launcher.bin");
+                    }
+                    catch (UnauthorizedAccessException ex2)
+                    {
+                        Logger.LoggingObject.Log(ELogType.Critical, ex2.Message);
+                    }
+                    catch (IOException ex3)
+                    {
+                        Logger.LoggingObject.Log(ELogType.Critical, ex3.Message);
+                    }
+                }
+                catch (UnauthorizedAccessException ex2)
+                {
+                    Logger.LoggingObject.Log(ELogType.Critical, ex2.Message);
+                }
+                catch (IOException ex3)
+                {
+                    Logger.LoggingObject.Log(ELogType.Critical, ex3.Message);
+                }
+
+                HandleFixingOfLists();
+
+                DumpIntegersToLog();
+                return true;
+            }
+            if (manual)
+            {
+                Logger.LoggingObject.Log(ELogType.Error,
+                                         LanguageManager.Singleton.GetTranslation(
+                                             ETranslations.ConfigCouldntFindValidSaveFile));
+            }
+            return false;
+        }
+
+        private static void LoadConfigFromFile()
+        {
+            using (FileStream file = File.OpenRead("Launcher.bin"))
+            {
+                Singleton = Serializer.Deserialize<Config>(file);
+            }
+        }
+
+        private static void DumpIntegersToLog()
+        {
+            Logger.LoggingObject.Log(ELogType.Verbose,
+                                     LanguageManager.Singleton.GetTranslation(ETranslations.ConfigDumpIntegers),
+                                     Singleton.GeneralSettings.PollingDelay,
+                                     Singleton.GeneralSettings.LaunchDelay,
+                                     Singleton.GeneralSettings.RestartDelay);
+        }
+
+        private static void HandleFixingOfLists()
+        {
+            for (int i = 0; i < Singleton.AccountSettings.Count; i++)
+            {
+                Singleton.AccountSettings[i].SetPID(uint.MaxValue);
+                Singleton.AccountSettings[i].SetIndex(i);
+            }
+            foreach (string ipAsString in Singleton.GeneralSettings.AllowedIPAddressesAsString)
+            {
+                IPAddress final;
+                if (IPAddress.TryParse(ipAsString, out final))
+                    Singleton.GeneralSettings.AddIP(final);
+            }
         }
     }
 }

@@ -74,9 +74,14 @@ namespace BasicStartComponent
             return new Form();
         }
 
+        public ESettingsType GetSettingType()
+        {
+            return ESettingsType.None;
+        }
+
         public bool Check(Account account)
         {
-            return !account.Running;
+            return !account.Running && account.ShouldBeRunning;
         }
 
         public bool IsReady(Account account)

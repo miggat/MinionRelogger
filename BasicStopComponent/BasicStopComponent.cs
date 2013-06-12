@@ -74,10 +74,15 @@ namespace BasicStopComponent
             return new Form();
         }
 
+        public ESettingsType GetSettingType()
+        {
+            return ESettingsType.None;
+        }
+
         public bool Check(Account account)
         {
-            return account.EnableScheduling && ((DateTime.Now - account.StartTime).TotalSeconds < 0 ||
-                                                (DateTime.Now - account.EndTime).TotalSeconds > 0);
+            return  !account.ShouldBeRunning || (account.EnableScheduling && ((DateTime.Now - account.StartTime).TotalSeconds < 0 ||
+                                                (DateTime.Now - account.EndTime).TotalSeconds > 0));
         }
 
         public bool IsReady(Account account)

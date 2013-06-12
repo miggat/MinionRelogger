@@ -136,6 +136,30 @@ namespace MinionReloggerLib.Core
             return _components.Select(componentClass => componentClass.Component.GetName()).ToList();
         }
 
+        public List<string> GetGlobalSettingsComponentNames()
+        {
+            return
+                _components.Where(c => c.Component.GetSettingType() == ESettingsType.Global)
+                           .Select(componentClass => componentClass.Component.GetName())
+                           .ToList();
+        }
+
+        public List<string> GetAccountSettingsComponentNames()
+        {
+            return
+                _components.Where(c => c.Component.GetSettingType() == ESettingsType.AccountSpecific)
+                           .Select(componentClass => componentClass.Component.GetName())
+                           .ToList();
+        }
+
+        public List<string> GetNoSettingsComponentNames()
+        {
+            return
+                _components.Where(c => c.Component.GetSettingType() == ESettingsType.None)
+                           .Select(componentClass => componentClass.Component.GetName())
+                           .ToList();
+        }
+
         public void LoadComponents()
         {
             foreach (ComponentClass relogComponent in _components)
