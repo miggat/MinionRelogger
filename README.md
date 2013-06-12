@@ -22,3 +22,4 @@ MinionRelogger.sln    - The Visual Studio (2012) solution file
 README.md             - This file
 ```
 
+This is [an example](http://example.com/ "Title") inline link.
