@@ -17,9 +17,10 @@ SchedulerComponent    - A basic component that allows scheduling of GW2 instance
 TestConsole           - Testing client & sample
 packages              - NUGet packages, DLLs are not included
 LICENSE.md            - The GPL license
+This is [an example](http://example.com/ "Title") inline link.
 MetroFramework.zip    - Backup of a release build from the [ModernUI project](https://github.com/viperneo/winforms-modernui)
 MinionRelogger.sln    - The Visual Studio (2012) solution file
 README.md             - This file
 ```
 
-This is [an example](http://example.com/ "Title") inline link.
+
