@@ -18,14 +18,15 @@
 *                                                                            *
 ******************************************************************************/
 
-using System;
 using MinionReloggerLib.Configuration;
 using MinionReloggerLib.Enums;
+using MinionReloggerLib.Helpers.MyIP;
+using MinionReloggerLib.Interfaces;
 using MinionReloggerLib.Interfaces.Objects;
 
-namespace MinionReloggerLib.Interfaces.RelogComponents
+namespace IPCheckComponent
 {
-    public class RestartDelayComponent : IRelogComponent, IRelogComponentExtension
+    public class IPCheckComponent : IRelogComponent, IRelogComponentExtension
     {
         private bool _isEnabled;
 
@@ -33,10 +34,10 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
         {
             if (Check(account))
             {
-                result = EComponentResult.Start;
+                result = EComponentResult.Continue;
                 if (IsReady(account))
                 {
-                    result = EComponentResult.Halt;
+                    result = EComponentResult.Kill;
                 }
             }
             else
@@ -48,7 +49,7 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public string GetName()
         {
-            return "RestartDelayComponent";
+            return "IPCheckComponent";
         }
 
         public void OnEnable()
@@ -69,15 +70,12 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public bool Check(Account account)
         {
-            return account.ShouldBeRunning && !account.Running;
+            return Config.Singleton.GeneralSettings.CheckForIP && account.Running;
         }
 
         public bool IsReady(Account account)
         {
-            return (DateTime.Now - account.LastCrash).TotalSeconds >= Config.Singleton.GeneralSettings.RestartDelay &&
-                   (DateTime.Now - account.LastStop).TotalSeconds >= Config.Singleton.GeneralSettings.RestartDelay &&
-                   (DateTime.Now - account.LastStart).TotalSeconds >=
-                   Config.Singleton.GeneralSettings.RestartDelay;
+            return !GetMyIP.ListContainsMyIPAddress(Config.Singleton.GeneralSettings.AllowedIPAddresses);
         }
 
         public void Update(Account account)

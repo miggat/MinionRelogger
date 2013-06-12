@@ -20,11 +20,12 @@
 
 using System;
 using MinionReloggerLib.Enums;
+using MinionReloggerLib.Interfaces;
 using MinionReloggerLib.Interfaces.Objects;
 
-namespace MinionReloggerLib.Interfaces.RelogComponents
+namespace SchedulerComponent
 {
-    public class BasicStartComponent : IRelogComponent, IRelogComponentExtension
+    public class SchedulerComponent : IRelogComponent, IRelogComponentExtension
     {
         private bool _isEnabled;
 
@@ -36,7 +37,7 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
                 if (IsReady(account))
                 {
                     Update(account);
-                    result = EComponentResult.Start;
+                    result = EComponentResult.Kill;
                 }
             }
             else
@@ -48,7 +49,7 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public string GetName()
         {
-            return "BasicStartComponent";
+            return "ScheduleComponent";
         }
 
         public void OnEnable()
@@ -69,13 +70,14 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public bool Check(Account account)
         {
-            return !account.Running;
+            return account.EnableScheduling;
         }
 
         public bool IsReady(Account account)
         {
-            return !account.EnableScheduling || ((DateTime.Now - account.StartTime).TotalSeconds > 0 &&
-                                                 (DateTime.Now - account.EndTime).TotalSeconds < 0);
+            double differenceFuture = (DateTime.Now - account.EndTime).TotalSeconds;
+            double differencePast = (account.StartTime - DateTime.Now).TotalSeconds;
+            return account.Running && (differenceFuture > 0 || differencePast > 0);
         }
 
         public void Update(Account account)

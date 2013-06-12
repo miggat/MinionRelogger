@@ -18,13 +18,16 @@
 *                                                                            *
 ******************************************************************************/
 
+using System;
+using System.Linq;
+using MinionReloggerLib.Configuration;
 using MinionReloggerLib.Enums;
+using MinionReloggerLib.Interfaces;
 using MinionReloggerLib.Interfaces.Objects;
-using MinionReloggerLib.Logging;
 
-namespace MinionReloggerLib.Interfaces.RelogComponents
+namespace LaunchDelayComponent
 {
-    public class BreakComponent : IRelogComponent, IRelogComponentExtension
+    public class LaunchDelayComponent : IRelogComponent, IRelogComponentExtension
     {
         private bool _isEnabled;
 
@@ -33,18 +36,10 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
             if (Check(account))
             {
                 result = EComponentResult.Continue;
-                Logger.LoggingObject.Log("[" + account.LoginName + "] CONTINUE");
-                Update(account);
-            }
-            else if (IsReady(account) && account.Running)
-            {
-                result = EComponentResult.Kill;
-                Logger.LoggingObject.Log("[" + account.LoginName + "] KILL");
-            }
-            else if (IsReady(account))
-            {
-                result = EComponentResult.Halt;
-                Logger.LoggingObject.Log("[" + account.LoginName + "] HALT");
+                if (IsReady(account))
+                {
+                    result = EComponentResult.Halt;
+                }
             }
             else
             {
@@ -55,7 +50,7 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public string GetName()
         {
-            return "BreakComponent";
+            return "LaunchDelayComponent";
         }
 
         public void OnEnable()
@@ -76,18 +71,19 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public bool Check(Account account)
         {
-            return account.Running && account.BreakObject != null && account.BreakObject.Check() &&
-                   account.BreakObject.IsReady();
+            return !account.Running;
         }
 
         public bool IsReady(Account account)
         {
-            return account.BreakObject != null && (account.BreakObject.Check() && !account.BreakObject.IsReady());
+            return
+                Config.Singleton.AccountSettings.Any(
+                    acc =>
+                    (DateTime.Now - acc.LastStart).TotalSeconds < Config.Singleton.GeneralSettings.LaunchDelay);
         }
 
         public void Update(Account account)
         {
-            account.BreakObject.Update();
         }
 
         public void PostWork(Account account)

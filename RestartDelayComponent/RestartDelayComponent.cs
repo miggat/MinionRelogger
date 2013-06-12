@@ -19,13 +19,14 @@
 ******************************************************************************/
 
 using System;
+using MinionReloggerLib.Configuration;
 using MinionReloggerLib.Enums;
+using MinionReloggerLib.Interfaces;
 using MinionReloggerLib.Interfaces.Objects;
-using MinionReloggerLib.Logging;
 
-namespace MinionReloggerLib.Interfaces.RelogComponents
+namespace RestartDelayComponent
 {
-    public class BasicStopComponent : IRelogComponent, IRelogComponentExtension
+    public class RestartDelayComponent : IRelogComponent, IRelogComponentExtension
     {
         private bool _isEnabled;
 
@@ -33,12 +34,10 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
         {
             if (Check(account))
             {
-                result = EComponentResult.Halt;
+                result = EComponentResult.Start;
                 if (IsReady(account))
                 {
-                    result = EComponentResult.Kill;
-                    Logger.LoggingObject.Log("[BasicStop] KILL");
-                    Update(account);
+                    result = EComponentResult.Halt;
                 }
             }
             else
@@ -50,7 +49,7 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public string GetName()
         {
-            return "BasicStopComponent";
+            return "RestartDelayComponent";
         }
 
         public void OnEnable()
@@ -71,18 +70,19 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public bool Check(Account account)
         {
-            return account.EnableScheduling && ((DateTime.Now - account.StartTime).TotalSeconds < 0 ||
-                                                (DateTime.Now - account.EndTime).TotalSeconds > 0);
+            return account.ShouldBeRunning && !account.Running;
         }
 
         public bool IsReady(Account account)
         {
-            return account.Running;
+            return (DateTime.Now - account.LastCrash).TotalSeconds >= Config.Singleton.GeneralSettings.RestartDelay &&
+                   (DateTime.Now - account.LastStop).TotalSeconds >= Config.Singleton.GeneralSettings.RestartDelay &&
+                   (DateTime.Now - account.LastStart).TotalSeconds >=
+                   Config.Singleton.GeneralSettings.RestartDelay;
         }
 
         public void Update(Account account)
         {
-            account.Update();
         }
 
         public void PostWork(Account account)

@@ -2,7 +2,7 @@
 
 namespace MinionReloggerLib.Interfaces
 {
-    internal interface IRelogComponentExtension
+    public interface IRelogComponentExtension
     {
         bool Check(Account account);
         bool IsReady(Account account);

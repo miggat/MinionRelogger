@@ -38,6 +38,5 @@ namespace ComponentTest
         {
             Logger.LoggingObject.Log("[TestComponent] OnUnload");
         }
-        
     }
 }

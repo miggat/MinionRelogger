@@ -18,14 +18,14 @@
 *                                                                            *
 ******************************************************************************/
 
-using MinionReloggerLib.Configuration;
+using System;
 using MinionReloggerLib.Enums;
-using MinionReloggerLib.Helpers.MyIP;
+using MinionReloggerLib.Interfaces;
 using MinionReloggerLib.Interfaces.Objects;
 
-namespace MinionReloggerLib.Interfaces.RelogComponents
+namespace BasicStartComponent
 {
-    public class IPCheckComponent : IRelogComponent, IRelogComponentExtension
+    public class BasicStartComponent : IRelogComponent, IRelogComponentExtension
     {
         private bool _isEnabled;
 
@@ -36,7 +36,8 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
                 result = EComponentResult.Continue;
                 if (IsReady(account))
                 {
-                    result = EComponentResult.Kill;
+                    Update(account);
+                    result = EComponentResult.Start;
                 }
             }
             else
@@ -48,7 +49,7 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public string GetName()
         {
-            return "IPCheckComponent";
+            return "BasicStartComponent";
         }
 
         public void OnEnable()
@@ -69,16 +70,18 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public bool Check(Account account)
         {
-            return Config.Singleton.GeneralSettings.CheckForIP && account.Running;
+            return !account.Running;
         }
 
         public bool IsReady(Account account)
         {
-            return !GetMyIP.ListContainsMyIPAddress(Config.Singleton.GeneralSettings.AllowedIPAddresses);
+            return !account.EnableScheduling || ((DateTime.Now - account.StartTime).TotalSeconds > 0 &&
+                                                 (DateTime.Now - account.EndTime).TotalSeconds < 0);
         }
 
         public void Update(Account account)
         {
+            account.Update();
         }
 
         public void PostWork(Account account)

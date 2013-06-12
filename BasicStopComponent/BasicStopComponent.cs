@@ -19,14 +19,13 @@
 ******************************************************************************/
 
 using System;
-using System.Linq;
-using MinionReloggerLib.Configuration;
 using MinionReloggerLib.Enums;
+using MinionReloggerLib.Interfaces;
 using MinionReloggerLib.Interfaces.Objects;
 
-namespace MinionReloggerLib.Interfaces.RelogComponents
+namespace BasicStopComponent
 {
-    public class LaunchDelayComponent : IRelogComponent, IRelogComponentExtension
+    public class BasicStopComponent : IRelogComponent, IRelogComponentExtension
     {
         private bool _isEnabled;
 
@@ -34,10 +33,11 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
         {
             if (Check(account))
             {
-                result = EComponentResult.Continue;
+                result = EComponentResult.Halt;
                 if (IsReady(account))
                 {
-                    result = EComponentResult.Halt;
+                    result = EComponentResult.Kill;
+                    Update(account);
                 }
             }
             else
@@ -49,7 +49,7 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public string GetName()
         {
-            return "LaunchDelayComponent";
+            return "BasicStopComponent";
         }
 
         public void OnEnable()
@@ -70,19 +70,18 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public bool Check(Account account)
         {
-            return !account.Running;
+            return account.EnableScheduling && ((DateTime.Now - account.StartTime).TotalSeconds < 0 ||
+                                                (DateTime.Now - account.EndTime).TotalSeconds > 0);
         }
 
         public bool IsReady(Account account)
         {
-            return
-                Config.Singleton.AccountSettings.Any(
-                    acc =>
-                    (DateTime.Now - acc.LastStart).TotalSeconds < Config.Singleton.GeneralSettings.LaunchDelay);
+            return account.Running;
         }
 
         public void Update(Account account)
         {
+            account.Update();
         }
 
         public void PostWork(Account account)

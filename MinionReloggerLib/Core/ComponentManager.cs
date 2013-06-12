@@ -127,20 +127,6 @@ namespace MinionReloggerLib.Core
 
             _components.Clear();
 
-            AddComponent(new BreakComponent());
-            AddComponent(new LaunchDelayComponent());
-            AddComponent(new RestartDelayComponent());
-            AddComponent(new IPCheckComponent());
-            AddComponent(new ScheduleComponent());
-            AddComponent(new BasicStopComponent());
-            AddComponent(new BasicStartComponent());
-
-            foreach (ComponentClass relogComponent in _components)
-            {
-                relogComponent.IsEnabled = true;
-                relogComponent.Component.OnEnable();
-            }
-
             try
             {
                 if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "Components"))
@@ -184,8 +170,8 @@ namespace MinionReloggerLib.Core
 
             foreach (ComponentClass relogComponent in _components)
             {
-                EnableComponent(relogComponent.Component.GetName());
                 relogComponent.Component.OnLoad();
+                EnableComponent(relogComponent.Component.GetName());
             }
         }
     }

@@ -18,13 +18,13 @@
 *                                                                            *
 ******************************************************************************/
 
-using System;
 using MinionReloggerLib.Enums;
+using MinionReloggerLib.Interfaces;
 using MinionReloggerLib.Interfaces.Objects;
 
-namespace MinionReloggerLib.Interfaces.RelogComponents
+namespace BreakComponent
 {
-    public class ScheduleComponent : IRelogComponent, IRelogComponentExtension
+    public class BreakComponent : IRelogComponent, IRelogComponentExtension
     {
         private bool _isEnabled;
 
@@ -33,11 +33,15 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
             if (Check(account))
             {
                 result = EComponentResult.Continue;
-                if (IsReady(account))
-                {
-                    Update(account);
-                    result = EComponentResult.Kill;
-                }
+                Update(account);
+            }
+            else if (IsReady(account) && account.Running)
+            {
+                result = EComponentResult.Kill;
+            }
+            else if (IsReady(account))
+            {
+                result = EComponentResult.Halt;
             }
             else
             {
@@ -48,7 +52,7 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public string GetName()
         {
-            return "ScheduleComponent";
+            return "BreakComponent";
         }
 
         public void OnEnable()
@@ -69,19 +73,18 @@ namespace MinionReloggerLib.Interfaces.RelogComponents
 
         public bool Check(Account account)
         {
-            return account.EnableScheduling;
+            return account.Running && account.BreakObject != null && account.BreakObject.Check() &&
+                   account.BreakObject.IsReady();
         }
 
         public bool IsReady(Account account)
         {
-            double differenceFuture = (DateTime.Now - account.EndTime).TotalSeconds;
-            double differencePast = (account.StartTime - DateTime.Now).TotalSeconds;
-            return account.Running && (differenceFuture > 0 || differencePast > 0);
+            return account.BreakObject != null && (account.BreakObject.Check() && !account.BreakObject.IsReady());
         }
 
         public void Update(Account account)
         {
-            account.Update();
+            account.BreakObject.Update();
         }
 
         public void PostWork(Account account)
