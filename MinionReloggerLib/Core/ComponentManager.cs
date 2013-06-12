@@ -26,7 +26,6 @@ using System.Reflection;
 using MinionReloggerLib.Enums;
 using MinionReloggerLib.Helpers.Language;
 using MinionReloggerLib.Interfaces;
-using MinionReloggerLib.Interfaces.RelogComponents;
 using MinionReloggerLib.Logging;
 
 namespace MinionReloggerLib.Core
