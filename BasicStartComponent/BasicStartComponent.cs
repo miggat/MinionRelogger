@@ -23,7 +23,6 @@ using System.Windows.Forms;
 using MinionReloggerLib.Enums;
 using MinionReloggerLib.Interfaces;
 using MinionReloggerLib.Interfaces.Objects;
-using System.Windows.Forms;
 
 namespace BasicStartComponent
 {

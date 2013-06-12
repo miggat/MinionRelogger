@@ -24,7 +24,6 @@ using MinionReloggerLib.Enums;
 using MinionReloggerLib.Helpers.MyIP;
 using MinionReloggerLib.Interfaces;
 using MinionReloggerLib.Interfaces.Objects;
-using System.Windows.Forms;
 
 namespace IPCheckComponent
 {
