@@ -13,7 +13,6 @@ namespace TestConsole
         private static void Main(string[] args)
         {
             Logger.Initialize(new ListBox());
-            Console.WriteLine(GW2MinionLauncher.BuildNumberFromApi());
             ComponentManager.Singleton.LoadComponents();
             ThreadManager.Singleton.Initialize();
             Config.Singleton.GeneralSettings.SetGW2Path(@"I:\Guild Wars 2\GW2.exe");

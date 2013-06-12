@@ -49,7 +49,7 @@ namespace SchedulerComponent
 
         public string GetName()
         {
-            return "ScheduleComponent";
+            return "SchedulerComponent";
         }
 
         public void OnEnable()

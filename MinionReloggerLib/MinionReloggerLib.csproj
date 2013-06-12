@@ -90,7 +90,6 @@
     <Compile Include="Interfaces\IRelogWorker.cs" />
     <Compile Include="Interfaces\Objects\Account.cs" />
     <Compile Include="Interfaces\Objects\WatchObject.cs" />
-    <Compile Include="Interfaces\RelogComponents\ScheduleComponent.cs" />
     <Compile Include="Interfaces\RelogWorkers\KillWorker.cs" />
     <Compile Include="Interfaces\RelogWorkers\StartWorker.cs" />
     <Compile Include="Logging\ClipboardHelper.cs" />
