@@ -139,6 +139,11 @@ csx
 # Windows Store app package directory
 AppPackages/
 
+#external packages
+protobuf-net.dll
+MetroFramework.dll
+MetroFramework.Design.dll
+
 # Others
 sql/
 *.Cache
