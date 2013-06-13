@@ -1,10 +1,31 @@
-﻿using System;
+﻿/*****************************************************************************
+*                                                                            *
+*  MinionReloggerLib 0.x Alpha -- https://github.com/Vipeax/MinionRelogger   *
+*  Copyright (C) 2013, Robert van den Boorn                                  *
+*                                                                            *
+*  This program is free software: you can redistribute it and/or modify      *
+*   it under the terms of the GNU General Public License as published by     *
+*   the Free Software Foundation, either version 3 of the License, or        *
+*   (at your option) any later version.                                      *
+*                                                                            *
+*   This program is distributed in the hope that it will be useful,          *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of           *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            *
+*   GNU General Public License for more details.                             *
+*                                                                            *
+*   You should have received a copy of the GNU General Public License        *
+*   along with this program.  If not, see <http://www.gnu.org/licenses/>.    *
+*                                                                            *
+******************************************************************************/
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using MetroFramework.Components;
 using MetroFramework.Forms;
+using MinionLauncherGUI.VersionControl;
 using MinionReloggerLib.Configuration;
 using MinionReloggerLib.Core;
 using MinionReloggerLib.Helpers.Input;
@@ -25,16 +46,14 @@ namespace MinionLauncherGUI
             CycleTabsForRenderer();
             if (!LoadConfig(false) || !File.Exists(Config.Singleton.GeneralSettings.GW2Path))
                 SetGW2Path();
-
+            VersionChecker.CheckForUpdates(this);
             var test = new Account();
             test.SetBotPath(AppDomain.CurrentDomain.BaseDirectory);
             test.SetEndTime(DateTime.Now.AddMinutes(1337));
             test.SetLoginName("robert.vd.boorn@gmail.com");
             test.SetManuallyScheduled(false);
-            test.SetShouldBeRunning(true);
             test.SetNoSound(true);
             test.SetPassword("minion-bot");
-            test.SetSchedulingEnabled(false);
             test.SetStartTime(DateTime.Now.AddSeconds(30));
             test.SetSchedulingEnabled(true);
             var test2 = new BreakObject();
@@ -57,7 +76,6 @@ namespace MinionLauncherGUI
             test3.SetNoSound(true);
             test3.SetPassword("mmominion");
             test3.SetSchedulingEnabled(true);
-            test3.SetShouldBeRunning(true);
             test3.SetStartTime(DateTime.Now.AddSeconds(120));
             var test4 = new BreakObject();
             test3.SetBreak(test4);

@@ -64,7 +64,7 @@ namespace MinionReloggerLib.Imports
         }
 
         [DllImport("GW2MinionLauncherDLL.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern bool Attach(uint pid);
+        internal static extern bool AttachToPid(uint pid);
 
         [DllImport("GW2MinionLauncherDLL.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint BuildNumber(uint pid);

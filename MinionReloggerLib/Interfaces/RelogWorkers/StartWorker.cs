@@ -123,7 +123,7 @@ namespace MinionReloggerLib.Interfaces.RelogWorkers
                         if (Directory.Exists(account.BotPath) &&
                             File.Exists(account + "\\GW2MinionLauncherDLL.dll"))
                             Kernel32.SetDllDirectory(account.BotPath);
-                        attached = GW2MinionLauncher.Attach((uint) p.Id);
+                        attached = GW2MinionLauncher.AttachToPid((uint) p.Id);
                     }
                     catch (AccessViolationException ex)
                     {
